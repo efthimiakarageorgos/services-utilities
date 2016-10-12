@@ -10,6 +10,12 @@
   <name>api-test-util</name>
   <url>http://maven.apache.org</url>
 
+    <parent>
+		<groupId>com.qiotec.devops</groupId>
+		<artifactId>qio-spring-boot-starter-parent</artifactId>
+		<version>0.2.4-SNAPSHOT</version>
+	</parent>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
