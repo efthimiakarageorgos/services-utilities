@@ -39,11 +39,11 @@ public class MUserGroupAPIHelper extends MBaseAPIHelper {
 		return super.retrieve(microservice, environment, getAllUserGroupsEndpoint, apiRequestHeaders);
 	}
 
-//	public ConnectionResponse retrieve(String microservice, String environment, String userGroupId, APIRequestHelper apiRequestHeaders) {
-//		return super.retrieve(microservice, environment, replaceUserGroupIdInSingleUserGroupEndpoint(userGroupId), apiRequestHeaders);
-//	}
+	public ConnectionResponse retrieve(String microservice, String environment, String userGroupId, APIRequestHelper apiRequestHeaders) {
+		return super.retrieve(microservice, environment, replaceUserGroupIdInSingleUserGroupEndpoint(userGroupId), apiRequestHeaders);
+	}
 	
-	public ConnectionResponse retrieve(String microservice, String environment, String userGroupName, APIRequestHelper apiRequestHeaders) {
+	public ConnectionResponse retrieve(String microservice, String environment, String byName, String userGroupName, APIRequestHelper apiRequestHeaders) {
 		return super.retrieve(microservice, environment, replaceUserGroupNameInUserGroupByNameEndpoint(userGroupName), apiRequestHeaders);
 	}
 
