@@ -11,17 +11,19 @@ import io.qio.qa.lib.connection.ConnectionResponse;
 
 public class MUserGroupAPIHelper extends MBaseAPIHelper {
 	private final String createOrUpdateUserGroupEndpoint = "/groups";
-	private final String getOrDeleteSingleUserGroupEndpointAbstract = "/groups/{userGroupId}";
-	private final String getUserGroupsEndpointsByNameAbstract = "/groups/search/findByNameLike?name={userGroupName}";
+	private final String getOrDeleteSingleUserGroupEndpoint = "/groups/{userGroupId}";
+	private final String getUserGroupsEndpointsByNameLike = "/groups/search/findByNameLike?name={userGroupName}";
+	private final String getUserGroupsEndpointsByScopeLike = "/groups/search/findByNameLike?name={userGroupScope}";
 	private final String getAllUserGroupsEndpoint = "/groups";
 
-	public String getUserGroupsEndpointsByNameAbstract () {
-		return getUserGroupsEndpointsByNameAbstract;
-	}
-	
-	public String getGetOrDeleteSingleUserGroupEndpointAbstract() {
-		return getOrDeleteSingleUserGroupEndpointAbstract;
-	}
+	//REVIEW FEEDBACK: Cannot tell what the purpose of the following methods is
+//	public String getUserGroupsEndpointsByNameLikeAbstract () {
+//		return getUserGroupsEndpointsByNameLike;
+//	}
+//	
+//	public String getGetOrDeleteSingleUserGroupEndpointAbstract() {
+//		return getOrDeleteSingleUserGroupEndpoint;
+//	}
 
 	public ConnectionResponse create(String microservice, String environment, String payload, APIRequestHelper apiRequestHeaders) {
 		return super.create(microservice, environment, createOrUpdateUserGroupEndpoint, payload, apiRequestHeaders);
@@ -43,17 +45,29 @@ public class MUserGroupAPIHelper extends MBaseAPIHelper {
 		return super.retrieve(microservice, environment, replaceUserGroupIdInSingleUserGroupEndpoint(userGroupId), apiRequestHeaders);
 	}
 	
-	public ConnectionResponse retrieve(String microservice, String environment, String byName, String userGroupName, APIRequestHelper apiRequestHeaders) {
-		return super.retrieve(microservice, environment, replaceUserGroupNameInUserGroupByNameEndpoint(userGroupName), apiRequestHeaders);
+	public ConnectionResponse retrieve(String microservice, String environment, String searchBy, String searchValue, APIRequestHelper apiRequestHeaders) {
+		switch(searchBy) {
+			case "byNameLike":
+				return super.retrieve(microservice, environment, replaceUserGroupNameInUserGroupByNameLikeEndpoint(searchValue), apiRequestHeaders);
+			case "byScopeLike":
+				return super.retrieve(microservice, environment, replaceUserGroupNameInUserGroupByScopeLikeEndpoint(searchValue), apiRequestHeaders);
+			default:
+				return super.retrieve(microservice, environment, replaceUserGroupNameInUserGroupByNameLikeEndpoint(searchValue), apiRequestHeaders);
+		}
 	}
 
 	protected String replaceUserGroupIdInSingleUserGroupEndpoint(String userGroupId) {
-		String singleUserGroupEndpoint = getOrDeleteSingleUserGroupEndpointAbstract.replace("{userGroupId}", userGroupId);
+		String singleUserGroupEndpoint = getOrDeleteSingleUserGroupEndpoint.replace("{userGroupId}", userGroupId);
 		return singleUserGroupEndpoint;
 	}
 	
-	protected String replaceUserGroupNameInUserGroupByNameEndpoint(String userGroupId) {
-		String userGroupsEndpoint = getUserGroupsEndpointsByNameAbstract.replace("{userGroupName}", userGroupId);
+	protected String replaceUserGroupNameInUserGroupByNameLikeEndpoint(String userGroupName) {
+		String userGroupsEndpoint = getUserGroupsEndpointsByNameLike.replace("{userGroupName}", userGroupName);
+		return userGroupsEndpoint;
+	}
+	
+	protected String replaceUserGroupNameInUserGroupByScopeLikeEndpoint(String userGroupScope) {
+		String userGroupsEndpoint = getUserGroupsEndpointsByScopeLike.replace("{userGroupName}", userGroupScope);
 		return userGroupsEndpoint;
 	}
 }

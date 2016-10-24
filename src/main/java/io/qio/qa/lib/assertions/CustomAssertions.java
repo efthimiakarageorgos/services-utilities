@@ -57,4 +57,13 @@ public class CustomAssertions {
 	public static void assertEqualityCheckOnInputFields(String expectedValue, String actualValue){
 		assertEquals(expectedValue, actualValue);
 	}
+	
+	//ADDITIONAL ASSERTIONS
+	//Ability to assert that system generated fields were created and ability to validate that they are null or not null
+	//Ability to validate that system validated fields have a specific value
+	//For example, in EHM tenants and insights get a referenceId field and is based on the value of counter;  
+	//the counter value is incremented every time a new item collection is created - there is no API to get the counter value
+	//
+	//Also another example of system created fields are the createDate
+	//Example of system updated fields: lastUpdateDate
 }
