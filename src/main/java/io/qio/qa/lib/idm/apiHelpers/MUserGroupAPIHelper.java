@@ -13,7 +13,7 @@ public class MUserGroupAPIHelper extends MBaseAPIHelper {
 	private final String createOrUpdateUserGroupEndpoint = "/groups";
 	private final String getOrDeleteSingleUserGroupEndpoint = "/groups/{userGroupId}";
 	private final String getUserGroupsEndpointsByNameLike = "/groups/search/findByNameLike?name={userGroupName}";
-	private final String getUserGroupsEndpointsByScopeLike = "/groups/search/findByNameLike?name={userGroupScope}";
+	private final String getUserGroupsEndpointsByScopeLike = "/groups/search/findByScopeLike?name={userGroupScope}";
 	private final String getAllUserGroupsEndpoint = "/groups";
 
 	//REVIEW FEEDBACK: Cannot tell what the purpose of the following methods is
