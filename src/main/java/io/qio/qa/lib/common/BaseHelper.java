@@ -39,4 +39,20 @@ public class BaseHelper {
 		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.setSerializationInclusion(Inclusion.NON_NULL);
 	}
+
+	/**
+	 * This method parses out the id from the input href link, which as observed is the last part in the links.
+	 *
+	 * @param hrefLink
+	 * @return
+	 */
+	public static String getElementId(String hrefLink) {
+		String[] HrefLinkSplitArray = hrefLink.split("/");
+		return HrefLinkSplitArray[HrefLinkSplitArray.length - 1];
+	}
+
+	public static String getCurrentTimeStamp() {
+		java.util.Date date = new java.util.Date();
+		return Long.toString(date.getTime());
+	}
 }
