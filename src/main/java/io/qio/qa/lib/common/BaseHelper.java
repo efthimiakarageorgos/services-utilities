@@ -57,19 +57,19 @@ public class BaseHelper {
 		return Long.toString(date.getTime());
 	}
 
-	public boolean isDateCorrectlyFormattedForISO8601NoMS(String inputDate, String fieldName) {
+	public static boolean isDateCorrectlyFormattedForISO8601NoMS(String inputDate, String fieldName) {
 		Logger logger = Logger.getRootLogger();
 		Boolean dateFormatCheckerFlag = true;
 		String dateFormatCheckerRegex = "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])T(00|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$";
 		if (!inputDate.matches(dateFormatCheckerRegex)) {
 			dateFormatCheckerFlag = false;
-			logger.error("Incorrectly formatted Date for " + fieldName + ": " + inputDate);
-			logger.error("Expected Date format: " + dateFormatCheckerRegex);
+			logger.error("Incorrectly formatted date for " + fieldName + ": " + inputDate);
+			logger.error("Expected date format: " + dateFormatCheckerRegex);
 		}
 		return dateFormatCheckerFlag;
 	}
 
-	public boolean isDateCorrectlyFormattedForISO8601WithMS(String inputDate, String fieldName) {
+	public static boolean isDateCorrectlyFormattedForISO8601WithMS(String inputDate, String fieldName) {
 		Logger logger = Logger.getRootLogger();
 		Boolean dateFormatCheckerFlag = true;
 		String dateFormatCheckerRegex = "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])T(00|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]).([0-9][0-9][0-9])Z$";
