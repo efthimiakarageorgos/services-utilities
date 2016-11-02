@@ -59,6 +59,7 @@ public class BaseHelper {
 
 	public static boolean isDateCorrectlyFormattedForISO8601NoMS(String inputDate, String fieldName) {
 		Logger logger = Logger.getRootLogger();
+		logger.info("Checking validity of date format for field named "+fieldName + " and value: "+inputDate);
 		Boolean dateFormatCheckerFlag = true;
 		String dateFormatCheckerRegex = "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])T(00|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$";
 		if (!inputDate.matches(dateFormatCheckerRegex)) {
