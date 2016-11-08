@@ -4,10 +4,18 @@
  */
 package io.qio.qa.lib.exception;
 
-public class ExceptionStyle2Response {
-	private String errors;
+import org.codehaus.jackson.annotate.JsonProperty;
+import java.util.List;
 
-	public String getErrors() {
+public class ExceptionStyle2Response {
+	@JsonProperty("errors")
+	private List<ExceptionStyle2ResponseError> errors;
+
+	public ExceptionStyle2Response(List<ExceptionStyle2ResponseError> errors) {
+		this.errors = errors;
+	}
+
+	public List<ExceptionStyle2ResponseError> getErrors() {
 		return errors;
 	}
 }
