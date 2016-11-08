@@ -41,7 +41,7 @@ public class CustomAssertions {
 				equalityCheckFlag = true;
 
 		}
-		assertTrue(equalityCheckFlag);
+		assertEquals(true, equalityCheckFlag);
 	}
 
 	public static void assertRequestAndResponseObj(int expectedRespCode, int actualRespCode, Object requestObj, Object responseObj) {
