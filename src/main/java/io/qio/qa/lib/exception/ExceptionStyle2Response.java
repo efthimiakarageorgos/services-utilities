@@ -11,7 +11,7 @@ public class ExceptionStyle2Response {
 	@JsonProperty("errors")
 	private List<ExceptionStyle2ResponseError> errors;
 
-	public ExceptionStyle2Response(List<ExceptionStyle2ResponseError> errors) {
+	public ExceptionStyle2Response() {
 		this.errors = errors;
 	}
 
