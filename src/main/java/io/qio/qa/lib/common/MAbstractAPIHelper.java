@@ -34,9 +34,6 @@ public class MAbstractAPIHelper {
 			String payload = BaseHelper.toJSONString(requestObject);
 			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, payload, apiRequestHelper);
 			responseCodeForInputRequest = conRespPost.getRespCode();
-			if (classType.toString().equals("ExceptionStyle2Response")) {
-				logger.info("ExceptionStyle2Response");
-			}
 			return (T) BaseHelper.toClassObject(conRespPost.getRespBody(), classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
 			e.printStackTrace();

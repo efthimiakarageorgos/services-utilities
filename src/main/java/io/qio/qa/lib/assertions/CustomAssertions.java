@@ -5,8 +5,12 @@
 package io.qio.qa.lib.assertions;
 
 import io.qio.qa.lib.exception.ServerResponse;
+import io.qio.qa.lib.exception.ExceptionStyle2Response;
+import io.qio.qa.lib.exception.ExceptionStyle2ResponseError;
 import static org.junit.Assert.*;
 import org.apache.log4j.Logger;
+
+import java.util.Objects;
 
 /*
  * This class can be expanded with methods to add more generalized custom assertions.
@@ -24,6 +28,20 @@ public class CustomAssertions {
 	public static void assertServerError(int expectedRespCode, String expectedExceptionMsg, ServerResponse serverResp) {
 		assertEquals(expectedRespCode, serverResp.getStatus());
 		assertEquals(expectedExceptionMsg, serverResp.getException());
+	}
+
+	public static void assertExceptionStyle2Error(String entity, String property, String message, ExceptionStyle2Response exceptionStyle2Response) {
+		int sz = exceptionStyle2Response.getErrors().size();
+		Boolean equalityCheckFlag = false;
+
+		for (int i = 0; i < sz; i++) {
+			ExceptionStyle2ResponseError exceptionStyle2ResponseError = exceptionStyle2Response.getErrors().get(i);
+
+			if (exceptionStyle2ResponseError.getEntity().equals(entity) && exceptionStyle2ResponseError.getProperty().equals(property) && exceptionStyle2ResponseError.getMessage().equals(message))
+				equalityCheckFlag = true;
+
+		}
+		assertTrue(equalityCheckFlag);
 	}
 
 	public static void assertRequestAndResponseObj(int expectedRespCode, int actualRespCode, Object requestObj, Object responseObj) {
