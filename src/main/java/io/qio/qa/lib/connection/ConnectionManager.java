@@ -133,6 +133,57 @@ public class ConnectionManager {
 		return conResp;
 	}
 
+	public ConnectionResponse put(String URI, String payload, APIRequestHelper apiRequestHelper) {
+		ConnectionResponse conResp = new ConnectionResponse();
+		URL url;
+		try {
+			url = new URL(URI);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("PUT");
+
+			// add request header
+			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+
+			// Send put request
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(payload);
+			wr.flush();
+			wr.close();
+
+			logger.debug("Sending 'PUT' request to URL : " + URI);
+			logger.debug("Request payload : " + payload);
+
+			int responseCode = con.getResponseCode();
+			conResp.setRespCode(responseCode);
+
+			BufferedReader in;
+			if (responseCode != 200)
+				in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			else
+				in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			conResp.setRespBody(response.toString());
+
+			// print result
+			logger.debug("Response Code and Body: " + conResp.toString());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage());
+		}
+		return conResp;
+	}
 
 	public ConnectionResponse patch(String URI, String payload, APIRequestHelper apiRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
@@ -147,7 +198,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
 
-			// Send put request
+			// Send patch request
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(payload);
