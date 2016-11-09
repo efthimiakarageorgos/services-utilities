@@ -104,6 +104,7 @@ public class ConnectionManager {
 			logger.debug("Request payload : " + payload);
 
 			int responseCode = con.getResponseCode();
+			logger.debug("Response code : " + responseCode);
 			conResp.setRespCode(responseCode);
 
 			BufferedReader in;
