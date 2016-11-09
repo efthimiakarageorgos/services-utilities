@@ -133,13 +133,14 @@ public class ConnectionManager {
 		return conResp;
 	}
 
-	public ConnectionResponse put(String URI, String payload, APIRequestHelper apiRequestHelper) {
+
+	public ConnectionResponse patch(String URI, String payload, APIRequestHelper apiRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
 			url = new URL(URI);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("PUT");
+			con.setRequestMethod("PATCH");
 
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
@@ -153,7 +154,7 @@ public class ConnectionManager {
 			wr.flush();
 			wr.close();
 
-			logger.debug("Sending 'PUT' request to URL : " + URI);
+			logger.debug("Sending 'PATCH' request to URL : " + URI);
 			logger.debug("Request payload : " + payload);
 
 			int responseCode = con.getResponseCode();
