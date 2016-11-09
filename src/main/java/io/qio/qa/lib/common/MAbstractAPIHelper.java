@@ -31,8 +31,6 @@ public class MAbstractAPIHelper {
 			methodArgs[3] = APIRequestHelper.class;
 			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
 
-			logger.info(createMethod.toString()+"ARRGS  0 "+methodArgs[0].toString() + "ARRGS  1 " + methodArgs[1].toString()+ "ARRGS  2 " + methodArgs[2].toString());
-
 			String payload = BaseHelper.toJSONString(requestObject);
 			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, payload, apiRequestHelper);
 			responseCodeForInputRequest = conRespPost.getRespCode();

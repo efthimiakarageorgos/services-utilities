@@ -158,6 +158,7 @@ public class ConnectionManager {
 			logger.debug("Request payload : " + payload);
 
 			int responseCode = con.getResponseCode();
+			logger.debug("Response code : " + responseCode);
 			conResp.setRespCode(responseCode);
 
 			BufferedReader in;
@@ -210,6 +211,7 @@ public class ConnectionManager {
 			logger.debug("Request payload : " + payload);
 
 			int responseCode = con.getResponseCode();
+			logger.debug("Response code : " + responseCode);
 			conResp.setRespCode(responseCode);
 
 			BufferedReader in;
@@ -253,9 +255,10 @@ public class ConnectionManager {
 
 			// Send delete request
 			con.setDoOutput(true);
-			int responseCode = con.getResponseCode();
 
 			logger.debug("Sending 'DELETE' request to URL : " + URI);
+			int responseCode = con.getResponseCode();
+			logger.debug("Response code : " + responseCode);
 			logger.debug("Response Code and Body: " + conResp.toString());
 
 			conResp.setRespCode(responseCode);

@@ -26,7 +26,13 @@ public class MBaseAPIHelper {
 		initConManager();
 		return conManager.put(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
-	
+
+	public ConnectionResponse patch(String microservice, String environment, String endpoint, String payload,
+									 APIRequestHelper apiRequestHeaders) {
+		initConManager();
+		return conManager.patch(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
+	}
+
 	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
 		initConManager();
 		return conManager.get(getURI(microservice, environment, endpoint), apiRequestHeaders);
