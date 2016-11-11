@@ -8,6 +8,8 @@ import io.qio.qa.lib.apiHelpers.APIRequestHelper;
 import io.qio.qa.lib.common.BaseHelper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -21,17 +23,51 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
+//import org.apache.http.client.methods.CloseableHttpResponse;
+//import org.apache.http.client.methods.RequestBuilder;
+//import org.apache.http.client.methods.HttpPatch;
+
+
 public class ConnectionManager {
 
 	private static ConnectionManager conManager = null;
 	private OauthValidationResponse oauthValidationResponse = null;
 	final static Logger logger = Logger.getLogger(ConnectionManager.class);
 
+	//TRYING SOLUTION FOR PATCH
+	//private static CloseableHttpResponse httpClient;
+
+
 	// ensures that only one instance of this class exists at all time during
 	// the entire run of the tests.
 	public static ConnectionManager getInstance() {
 		if (conManager == null) {
 			conManager = new ConnectionManager();
+		}
+
+		try {
+			Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+			methodsField.setAccessible(true);
+			// get the methods field modifiers
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
+			// bypass the "private" modifier
+			modifiersField.setAccessible(true);
+
+			// remove the "final" modifier
+			modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+         /* valid HTTP methods */
+			String[] methods = {
+					"GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE", "PATCH"
+			};
+			// set the new methods - including patch
+			methodsField.set(null, methods);
+
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+			e.printStackTrace();
 		}
 		return conManager;
 	}
@@ -189,14 +225,20 @@ public class ConnectionManager {
 
 	public ConnectionResponse patch(String URI, String payload, APIRequestHelper apiRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
+
 		URL url;
 		try {
 			url = new URL(URI);
+
+//			httpClient = (CloseableHttpResponse) HttpClients.createDefault();
+//			HttpPatch httpPatch = new HttpPatch(URI);
+//			CloseableHttpResponse response = httpClient. execute(httpPatch);
+
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-			//con.setRequestMethod("PATCH");
-			con.setRequestProperty("X-HTTP-Method-Override", "PATCH");
-			con.setRequestMethod("POST");
+			con.setRequestMethod("PATCH");
+//			con.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+//			con.setRequestMethod("POST");
 
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
