@@ -21,6 +21,7 @@ public class CustomAssertions {
 	final static Logger logger = Logger.getRootLogger();
 
 	public static void assertServerError(int expectedRespCode, String expectedExceptionMsg, String expectedMsg, ServerResponse serverResp) {
+		logger.info("MESSAGE: "+expectedMsg);
 		assertServerError(expectedRespCode, expectedExceptionMsg, serverResp);
 		assertTrue(serverResp.getMessage().equals(expectedMsg) || serverResp.getMessage().contains(expectedMsg));
 	}

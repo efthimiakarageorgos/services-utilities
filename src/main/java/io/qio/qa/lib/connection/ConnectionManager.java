@@ -8,8 +8,6 @@ import io.qio.qa.lib.apiHelpers.APIRequestHelper;
 import io.qio.qa.lib.common.BaseHelper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -29,6 +27,8 @@ import java.lang.reflect.Modifier;
 //import org.apache.http.client.methods.CloseableHttpResponse;
 //import org.apache.http.client.methods.RequestBuilder;
 //import org.apache.http.client.methods.HttpPatch;
+//import org.apache.http.impl.client.CloseableHttpClient;
+//import org.apache.http.impl.client.HttpClients;
 
 
 public class ConnectionManager {
@@ -36,10 +36,6 @@ public class ConnectionManager {
 	private static ConnectionManager conManager = null;
 	private OauthValidationResponse oauthValidationResponse = null;
 	final static Logger logger = Logger.getLogger(ConnectionManager.class);
-
-	//TRYING SOLUTION FOR PATCH
-	//private static CloseableHttpResponse httpClient;
-
 
 	// ensures that only one instance of this class exists at all time during
 	// the entire run of the tests.
@@ -229,10 +225,6 @@ public class ConnectionManager {
 		URL url;
 		try {
 			url = new URL(URI);
-
-//			httpClient = (CloseableHttpResponse) HttpClients.createDefault();
-//			HttpPatch httpPatch = new HttpPatch(URI);
-//			CloseableHttpResponse response = httpClient. execute(httpPatch);
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
