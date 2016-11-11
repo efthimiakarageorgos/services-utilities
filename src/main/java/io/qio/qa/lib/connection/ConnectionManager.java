@@ -193,7 +193,10 @@ public class ConnectionManager {
 		try {
 			url = new URL(URI);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("PATCH");
+
+			//con.setRequestMethod("PATCH");
+			con.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+			con.setRequestMethod("POST");
 
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
