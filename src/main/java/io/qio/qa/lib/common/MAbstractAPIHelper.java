@@ -11,6 +11,8 @@ import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
 import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+//import org.codehaus.jackson.JsonNode;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -152,37 +154,37 @@ public class MAbstractAPIHelper {
 			
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
-			String className = classType.getSimpleName();
-			String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
-
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
 			String responseBody = conRespGet.getRespBody();
 
+			//Note that the response depends on the API implementation. In some cases it only contains the list
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+
 				page = collectionListResponseStyleB.getPage();
-				JSONObject _embedded = collectionListResponseStyleB.get_embedded();
-
-				String collectionItemList = _embedded.get(key).toString();
-				String collectionItemList3= BaseHelper.toJSONString(collectionItemList);
-				logger.info("XXXX-AAA " + collectionItemList3);
-
-			String embedded2 = collectionListResponseStyleB.get_embedded().toString();
-			int startIndex=embedded2.indexOf("[");
-			int endIndex=embedded2.indexOf("]")+1;
-			String collectionItemList2=embedded2.substring(startIndex, endIndex);
-
-				collectionItemList2.compareTo(collectionItemList);
-				logger.info("XXXX-BBB " + collectionItemList2);
 
 				//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
-				//Note that the response depends on the API implementation. In some cases it only contains the list
-				//of collection items, in others the list is a json key:value pair under an "_embedded" element
-//			String jsonString = conRespGet.getRespBody();
-//			int startIndex=jsonString.indexOf("[");
-//			int endIndex=jsonString.indexOf("]")+1;
-//			String collectionItemList=jsonString.substring(startIndex, endIndex);
+				//The following commented code does not work as the string has '=' instead of ":" and no quotes around the key-value pairs
+//				JSONObject embedded = collectionListResponseStyleB.get_embedded();
+//
+//				String className = classType.getSimpleName();
+//				String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
+//
+//				String collectionItemList = embedded.get(key).toString();
+//				logger.info("collectionItemList: " + collectionItemList);
+
+
+				String embedded = collectionListResponseStyleB.get_embedded().toString();
+				int startIndex=embedded.indexOf("[");
+				int endIndex=embedded.indexOf("]")+1;
+				String collectionItemList=embedded.substring(startIndex, endIndex);
+
+// 				String jsonString = conRespGet.getRespBody();
+//				int startIndex=jsonString.indexOf("[");
+//				int endIndex=jsonString.indexOf("]")+1;
+//				String collectionItemList=jsonString.substring(startIndex, endIndex);
 
 				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 			} else {
