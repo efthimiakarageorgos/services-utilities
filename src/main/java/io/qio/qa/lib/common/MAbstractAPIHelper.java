@@ -151,15 +151,20 @@ public class MAbstractAPIHelper {
 			methodArgs[4] = APIRequestHelper.class;
 			
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
-			logger.info(retrieveMethod.toString());
+			String className = classType.getSimpleName();
+			logger.info("XXXX-BBB "+className);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
 
 
-			CollectionListResponseStyleB xxx = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
-			page = xxx.getPage();
-			String embedded = xxx.get_embedded().toString();
+			CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
+			page = collectionListResponseStyleB.getPage();
+			JSONObject xxx = collectionListResponseStyleB.get_embedded();
+			String yyy = xxx.get(className).toString();
+			logger.info("XXXX-AAA "+yyy);
+
+			String embedded = collectionListResponseStyleB.get_embedded().toString();
 			int startIndex=embedded.indexOf("[");
 			int endIndex=embedded.indexOf("]")+1;
 			String collectionItemList=embedded.substring(startIndex, endIndex);
