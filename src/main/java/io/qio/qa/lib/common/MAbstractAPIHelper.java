@@ -160,7 +160,8 @@ public class MAbstractAPIHelper {
 			CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
 			page = collectionListResponseStyleB.getPage();
 			JSONObject xxx = collectionListResponseStyleB.get_embedded();
-			String key = className.substring(0,0).toLowerCase()+ className.substring(1)+ "s";
+
+			String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
 			logger.info("XXXX-BBB "+key);
 			String yyy = xxx.get(key).toString();
 			logger.info("XXXX-AAA "+yyy);
