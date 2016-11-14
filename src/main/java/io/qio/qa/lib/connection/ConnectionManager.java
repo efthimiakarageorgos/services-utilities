@@ -44,6 +44,7 @@ public class ConnectionManager {
 			conManager = new ConnectionManager();
 		}
 
+		// http://stackoverflow.com/questions/22355235/patch-request-using-jersey-client/39641592#39641592
 		try {
 			Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
 			methodsField.setAccessible(true);
