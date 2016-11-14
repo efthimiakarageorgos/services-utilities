@@ -165,7 +165,8 @@ public class MAbstractAPIHelper {
 				JSONObject _embedded = collectionListResponseStyleB.get_embedded();
 
 				String collectionItemList = _embedded.get(key).toString();
-				logger.info("XXXX-AAA " + collectionItemList);
+				String collectionItemList3= BaseHelper.toJSONString(collectionItemList);
+				logger.info("XXXX-AAA " + collectionItemList3);
 
 			String embedded2 = collectionListResponseStyleB.get_embedded().toString();
 			int startIndex=embedded2.indexOf("[");
