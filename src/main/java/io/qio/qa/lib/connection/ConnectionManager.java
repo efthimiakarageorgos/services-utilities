@@ -24,13 +24,6 @@ import java.util.Base64;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-//import org.apache.http.client.methods.CloseableHttpResponse;
-//import org.apache.http.client.methods.RequestBuilder;
-//import org.apache.http.client.methods.HttpPatch;
-//import org.apache.http.impl.client.CloseableHttpClient;
-//import org.apache.http.impl.client.HttpClients;
-
-
 public class ConnectionManager {
 
 	private static ConnectionManager conManager = null;

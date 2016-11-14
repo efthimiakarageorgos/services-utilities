@@ -5,10 +5,11 @@
 package io.qio.qa.lib.common;
 
 import io.qio.qa.lib.apiHelpers.APIRequestHelper;
+import io.qio.qa.lib.common.model.Page;
 import io.qio.qa.lib.connection.ConnectionResponse;
 import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
+import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MAbstractAPIHelper {
 
 	public static int responseCodeForInputRequest;
+	public static Page page = null;
 	private static MOauthAPIHelper oauthAPIHelper = null;
 
 	final static Logger logger = Logger.getRootLogger();
@@ -151,14 +153,22 @@ public class MAbstractAPIHelper {
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
-			
+
+
+			CollectionListResponseStyleB xxx = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
+			page = xxx.getPage();
+			String embedded = xxx.get_embedded();
+			int startIndex=embedded.indexOf("[");
+			int endIndex=embedded.indexOf("]")+1;
+			String collectionItemList=embedded.substring(startIndex, endIndex);
+
 			//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
 			//Note that the response depends on the API implementation. In some cases it only contains the list 
-			//of collection items, in others is list is a json key:value pair under an "_embedded" element
-			String jsonString = conRespGet.getRespBody();
-			int startIndex=jsonString.indexOf("[");
-			int endIndex=jsonString.indexOf("]")+1;
-			String collectionItemList=jsonString.substring(startIndex, endIndex);
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+//			String jsonString = conRespGet.getRespBody();
+//			int startIndex=jsonString.indexOf("[");
+//			int endIndex=jsonString.indexOf("]")+1;
+//			String collectionItemList=jsonString.substring(startIndex, endIndex);
 			
 		    return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 			//return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
