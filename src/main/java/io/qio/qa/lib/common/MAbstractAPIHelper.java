@@ -10,6 +10,8 @@ import io.qio.qa.lib.connection.ConnectionResponse;
 import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
 import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -157,7 +159,7 @@ public class MAbstractAPIHelper {
 
 			CollectionListResponseStyleB xxx = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
 			page = xxx.getPage();
-			String embedded = xxx.get_embedded();
+			String embedded = xxx.get_embedded().toString();
 			int startIndex=embedded.indexOf("[");
 			int endIndex=embedded.indexOf("]")+1;
 			String collectionItemList=embedded.substring(startIndex, endIndex);
