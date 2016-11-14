@@ -5,6 +5,7 @@
 package io.qio.qa.lib.common.model;
 
 import io.qio.qa.lib.common.Links;
+import org.json.simple.JSONObject;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.apache.log4j.Logger;
 
@@ -13,7 +14,7 @@ public class CollectionListResponseStyleB {
     private Page page;
 
     @JsonProperty("_embedded")
-    private String _embedded;
+    private JSONObject _embedded;
 
     @JsonProperty("_links")
     private Links _links;
@@ -23,11 +24,11 @@ public class CollectionListResponseStyleB {
 
     //@SuppressWarnings("serial")
 
-    public String get_embedded() {
+    public JSONObject get_embedded() {
         return _embedded;
     }
 
-    public void set_embedded(String _embedded) {
+    public void set_embedded(JSONObject _embedded) {
         this._embedded = _embedded;
     }
 
