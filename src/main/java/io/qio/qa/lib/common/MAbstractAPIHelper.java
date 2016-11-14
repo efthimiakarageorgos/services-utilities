@@ -70,8 +70,8 @@ public class MAbstractAPIHelper {
 			Method deleteMethod = apiHelperObj.getClass().getMethod("delete", methodArgs);
 			ConnectionResponse conRespDelete = (ConnectionResponse) deleteMethod.invoke(apiHelperObj, microservice, environment, elementId, apiRequestHelper);
 
-			logger.info("AAAAAAAAAAAAAA "+conRespDelete.getRespBody().toString());
-
+			// TODO
+			// do not know how to capture the response code
 			//responseCodeForInputRequest = conRespDelete.getRespCode();
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
