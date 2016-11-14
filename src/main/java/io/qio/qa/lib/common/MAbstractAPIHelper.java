@@ -151,35 +151,39 @@ public class MAbstractAPIHelper {
 			methodArgs[4] = APIRequestHelper.class;
 			
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
 			String className = classType.getSimpleName();
 			String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
+			String responseBody = conRespGet.getRespBody();
 
+			if (responseBody.contains("_embedded")) {
+				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+				page = collectionListResponseStyleB.getPage();
+				JSONObject _embedded = collectionListResponseStyleB.get_embedded();
 
-			CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
-			page = collectionListResponseStyleB.getPage();
-			JSONObject _embedded = collectionListResponseStyleB.get_embedded();
-
-			String collectionItemList = _embedded.get(key).toString();
-			logger.info("XXXX-AAA "+collectionItemList);
+				String collectionItemList = _embedded.get(key).toString();
+				logger.info("XXXX-AAA " + collectionItemList);
 
 //			String embedded = collectionListResponseStyleB.get_embedded().toString();
 //			int startIndex=embedded.indexOf("[");
 //			int endIndex=embedded.indexOf("]")+1;
 //			String collectionItemList=embedded.substring(startIndex, endIndex);
 
-			//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
-			//Note that the response depends on the API implementation. In some cases it only contains the list 
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+				//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
+				//Note that the response depends on the API implementation. In some cases it only contains the list
+				//of collection items, in others the list is a json key:value pair under an "_embedded" element
 //			String jsonString = conRespGet.getRespBody();
 //			int startIndex=jsonString.indexOf("[");
 //			int endIndex=jsonString.indexOf("]")+1;
 //			String collectionItemList=jsonString.substring(startIndex, endIndex);
-			
-		    return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-			//return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+
+				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+			} else {
+				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			}
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
 			e.printStackTrace();
 			return null;
