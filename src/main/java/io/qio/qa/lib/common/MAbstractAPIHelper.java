@@ -152,7 +152,6 @@ public class MAbstractAPIHelper {
 			
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 			String className = classType.getSimpleName();
-			logger.info("XXXX-BBB "+className);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
@@ -161,7 +160,9 @@ public class MAbstractAPIHelper {
 			CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
 			page = collectionListResponseStyleB.getPage();
 			JSONObject xxx = collectionListResponseStyleB.get_embedded();
-			String yyy = xxx.get(className).toString();
+			String key = className.substring(0,0).toLowerCase()+ className.substring(1)+ "s";
+			logger.info("XXXX-BBB "+key);
+			String yyy = xxx.get(key).toString();
 			logger.info("XXXX-AAA "+yyy);
 
 			String embedded = collectionListResponseStyleB.get_embedded().toString();
