@@ -152,6 +152,7 @@ public class MAbstractAPIHelper {
 			
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 			String className = classType.getSimpleName();
+			String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
@@ -159,17 +160,15 @@ public class MAbstractAPIHelper {
 
 			CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(conRespGet.getRespBody(), CollectionListResponseStyleB.class);
 			page = collectionListResponseStyleB.getPage();
-			JSONObject xxx = collectionListResponseStyleB.get_embedded();
+			JSONObject _embedded = collectionListResponseStyleB.get_embedded();
 
-			String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
-			logger.info("XXXX-BBB "+key);
-			String yyy = xxx.get(key).toString();
-			logger.info("XXXX-AAA "+yyy);
+			String collectionItemList = _embedded.get(key).toString();
+			logger.info("XXXX-AAA "+collectionItemList);
 
-			String embedded = collectionListResponseStyleB.get_embedded().toString();
-			int startIndex=embedded.indexOf("[");
-			int endIndex=embedded.indexOf("]")+1;
-			String collectionItemList=embedded.substring(startIndex, endIndex);
+//			String embedded = collectionListResponseStyleB.get_embedded().toString();
+//			int startIndex=embedded.indexOf("[");
+//			int endIndex=embedded.indexOf("]")+1;
+//			String collectionItemList=embedded.substring(startIndex, endIndex);
 
 			//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
 			//Note that the response depends on the API implementation. In some cases it only contains the list 
