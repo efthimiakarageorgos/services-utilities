@@ -167,10 +167,13 @@ public class MAbstractAPIHelper {
 				String collectionItemList = _embedded.get(key).toString();
 				logger.info("XXXX-AAA " + collectionItemList);
 
-//			String embedded = collectionListResponseStyleB.get_embedded().toString();
-//			int startIndex=embedded.indexOf("[");
-//			int endIndex=embedded.indexOf("]")+1;
-//			String collectionItemList=embedded.substring(startIndex, endIndex);
+			String embedded2 = collectionListResponseStyleB.get_embedded().toString();
+			int startIndex=embedded2.indexOf("[");
+			int endIndex=embedded2.indexOf("]")+1;
+			String collectionItemList2=embedded2.substring(startIndex, endIndex);
+
+				collectionItemList2.compareTo(collectionItemList);
+				logger.info("XXXX-BBB " + collectionItemList2);
 
 				//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
 				//Note that the response depends on the API implementation. In some cases it only contains the list
