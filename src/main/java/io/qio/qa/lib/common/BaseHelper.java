@@ -4,6 +4,7 @@
  */
 package io.qio.qa.lib.common;
 
+import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -55,6 +56,25 @@ public class BaseHelper {
 	public static String getCurrentTimeStamp() {
 		java.util.Date date = new java.util.Date();
 		return Long.toString(date.getTime());
+	}
+
+	public static String getCollectionItemListFromEmbeddedElement(CollectionListResponseStyleB collectionListResponseStyleB) {
+		//REVIEW REQUIRED: This is probably not the best way for extracting the list out of the response
+		//The following commented code does not work as the string has '=' instead of ":" and no quotes around the key-value pairs
+//		JSONObject embedded = collectionListResponseStyleB.get_embedded();
+//
+//		String className = classType.getSimpleName();
+//		String key = className.substring(0,1).toLowerCase()+ className.substring(1)+ "s";
+//
+//		String collectionItemList = embedded.get(key).toString();
+//		logger.info("collectionItemList: " + collectionItemList);
+
+
+		String embedded = collectionListResponseStyleB.get_embedded().toString();
+		int startIndex=embedded.indexOf("[");
+		int endIndex=embedded.indexOf("]")+1;
+		String collectionItemList=embedded.substring(startIndex, endIndex);
+		return collectionItemList;
 	}
 
 	public static boolean isDateCorrectlyFormattedForISO8601NoMS(String inputDate, String fieldName) {

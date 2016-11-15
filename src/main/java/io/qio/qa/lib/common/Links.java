@@ -10,8 +10,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.lang.reflect.Field;
 
 public class Links {
+	@JsonProperty("first")
+	private FirstPageLink firstPageLink;
+
+	@JsonProperty("last")
+	private LastPageLink lastPageLink;
+
+	@JsonProperty("next")
+	private NextPageLink nextPageLink;
+
+	@JsonProperty("profile")
+	private ProfileLink profileLink;
+
 	@JsonProperty("self")
 	private SelfLink selfLink;
+
+	@JsonProperty("xxx")
+	private XXXLink xxxLink;
 
 	public SelfLink getSelfLink() {
 		return selfLink;
@@ -19,6 +34,46 @@ public class Links {
 
 	public void setSelfLink(SelfLink self) {
 		this.selfLink = self;
+	}
+
+	public FirstPageLink getFirstPageLink() {
+		return firstPageLink;
+	}
+
+	public void setFirstPageLink(FirstPageLink firstPageLink) {
+		this.firstPageLink = firstPageLink;
+	}
+
+	public LastPageLink getLastPageLink() {
+		return lastPageLink;
+	}
+
+	public void setLastPageLink(LastPageLink lastPageLink) {
+		this.lastPageLink = lastPageLink;
+	}
+
+	public NextPageLink getNextPageLink() {
+		return nextPageLink;
+	}
+
+	public void setNextPageLink(NextPageLink nextPageLink) {
+		this.nextPageLink = nextPageLink;
+	}
+
+	public ProfileLink getProfileLink() {
+		return profileLink;
+	}
+
+	public void setProfileLink(ProfileLink profileLink) {
+		this.profileLink = profileLink;
+	}
+
+	public XXXLink getXxxLink() {
+		return xxxLink;
+	}
+
+	public void setXxxLink(XXXLink xxxLink) {
+		this.xxxLink = xxxLink;
 	}
 
 	@Override
@@ -127,5 +182,20 @@ public class Links {
 	}
 
 	public class SelfLink extends HrefLinks {
+	}
+
+	public class FirstPageLink extends HrefLinks {
+	}
+
+	public class LastPageLink extends HrefLinks {
+	}
+
+	public class NextPageLink extends HrefLinks {
+	}
+
+	public class ProfileLink extends HrefLinks {
+	}
+
+	public class XXXLink extends HrefLinks {
 	}
 }
