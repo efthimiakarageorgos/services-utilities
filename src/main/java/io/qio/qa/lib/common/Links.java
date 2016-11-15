@@ -130,23 +130,37 @@ public class Links {
 		public boolean equals(Object responseObj) {
 			Logger logger = Logger.getRootLogger();
 			Boolean equalityCheckFlag = true;
+			int idx = 0;
 
 			if (!(responseObj instanceof HrefLinks) || responseObj == null)
 				return false;
 
 			String requestHref = this.getHref();
+			idx = requestHref.indexOf("?");
+
+			String requestHrefForValidation = requestHref;
+			if (idx > 0) {
+				requestHrefForValidation = requestHref.substring(0, idx - 1);
+			}
+
 			String responseHref = ((HrefLinks) responseObj).getHref();
+			idx = responseHref.indexOf("?");
+
+			String responseHrefForValidation = responseHref;
+			if (idx > 0) {
+				responseHrefForValidation = responseHref.substring(0, idx - 1);
+			}
 
 			if (requestHref != null)
-				if (!isURLCorrectlyFormatted(requestHref))
+				if (!isURLCorrectlyFormatted(requestHrefForValidation))
 					return false;
 
 			if (responseHref != null)
-				if (!isURLCorrectlyFormatted(responseHref))
+				if (!isURLCorrectlyFormatted(responseHrefForValidation))
 					return false;
 
 			if (requestHref != null)
-				if (!requestHref.equals(responseHref)) {
+				if (!requestHrefForValidation.equals(responseHrefForValidation)) {
 					equalityCheckFlag = false;
 					logger.error("Class Name: " + this.getClass().getName()
 							+ " --> Match failed on property: href, Request Value: " + requestHref
