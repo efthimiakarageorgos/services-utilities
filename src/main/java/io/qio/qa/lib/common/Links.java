@@ -25,9 +25,6 @@ public class Links {
 	@JsonProperty("self")
 	private SelfLink selfLink;
 
-	@JsonProperty("xxx")
-	private XXXLink xxxLink;
-
 	public SelfLink getSelfLink() {
 		return selfLink;
 	}
@@ -68,14 +65,6 @@ public class Links {
 		this.profileLink = profileLink;
 	}
 
-	public XXXLink getXxxLink() {
-		return xxxLink;
-	}
-
-	public void setXxxLink(XXXLink xxxLink) {
-		this.xxxLink = xxxLink;
-	}
-
 	@Override
 	public boolean equals(Object responseObj) {
 		Logger logger = Logger.getRootLogger();
@@ -105,11 +94,6 @@ public class Links {
 		return equalityCheckFlag;
 	}
 
-	/**
-	 * TODO: Here we just need to check that the format of url is correct, i.e.
-	 * it should be like https://<>/<>/ etc
-	 */
-
 	public class HrefLinks {
 		@JsonProperty("href")
 		String href;
@@ -126,6 +110,7 @@ public class Links {
 		 * In addition to just checking the equality of the urls, this method
 		 * will also check if they are valid or not.
 		 */
+
 		@Override
 		public boolean equals(Object responseObj) {
 			Logger logger = Logger.getRootLogger();
@@ -135,6 +120,9 @@ public class Links {
 			if (!(responseObj instanceof HrefLinks) || responseObj == null)
 				return false;
 
+			//REVIEW REQUIRED: Need to change isURLCorrectlyFormatted method to look for ?xxx=zzz&yyy=wwww at the end of the href path
+			//For now I am expluding them
+			//TODO
 			String requestHref = this.getHref();
 			idx = requestHref.indexOf("?");
 
@@ -188,11 +176,6 @@ public class Links {
 			}
 			return urlFormatCheckerFlag;
 		}
-
-		/**
-		 * TODO: Here we just need to check that the format of url is correct,
-		 * i.e. it should be like https://<>/<>/ etc
-		 */
 	}
 
 	public class SelfLink extends HrefLinks {
