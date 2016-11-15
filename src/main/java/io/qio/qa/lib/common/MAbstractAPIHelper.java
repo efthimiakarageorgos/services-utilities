@@ -6,7 +6,6 @@ package io.qio.qa.lib.common;
 
 import io.qio.qa.lib.apiHelpers.APIRequestHelper;
 import io.qio.qa.lib.common.model.Page;
-import io.qio.qa.lib.common.BaseHelper;
 import io.qio.qa.lib.connection.ConnectionResponse;
 import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
 import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
@@ -22,7 +21,8 @@ import java.util.List;
 public class MAbstractAPIHelper {
 
 	public static int responseCodeForInputRequest;
-	public static Page page = null;
+	public static Page pageForInputRequest = null;
+	public static Links linksForInputRequest = null;
 	private static MOauthAPIHelper oauthAPIHelper = null;
 
 	final static Logger logger = Logger.getRootLogger();
@@ -163,7 +163,8 @@ public class MAbstractAPIHelper {
 			if (responseBody.contains("_embedded")) {
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				page = collectionListResponseStyleB.getPage();
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
 
 				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
@@ -196,7 +197,8 @@ public class MAbstractAPIHelper {
 			if (responseBody.contains("_embedded")) {
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				page = collectionListResponseStyleB.getPage();
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
 
 				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
