@@ -192,7 +192,4 @@ public class Links {
 
 	public class ProfileLink extends HrefLinks {
 	}
-
-	public class XXXLink extends HrefLinks {
-	}
 }
