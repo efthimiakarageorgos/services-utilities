@@ -47,8 +47,27 @@ public class MAbstractAPIHelper {
 		}
 	}
 
-	public static <T> T getResponseObjForUpdate(Object requestObject, String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj,
-                                                Class<T> classType) {
+	public static <T> T getResponseObjForCreate(Object requestObject, String microservice, String environment, String collectionId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
+
+		try {
+			initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[4];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
+			methodArgs[4] = APIRequestHelper.class;
+			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
+
+			String payload = BaseHelper.toJSONString(requestObject);
+			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, collectionId, payload, apiRequestHelper);
+			responseCodeForInputRequest = conRespPost.getRespCode();
+			return (T) BaseHelper.toClassObject(conRespPost.getRespBody(), classType);
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static <T> T getResponseObjForUpdate(Object requestObject, String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
 
