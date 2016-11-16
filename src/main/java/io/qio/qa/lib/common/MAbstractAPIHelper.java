@@ -52,11 +52,16 @@ public class MAbstractAPIHelper {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
 
-			Class[] methodArgs = new Class[4];
+			logger.info("I am here");
+
+			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
 			methodArgs[4] = APIRequestHelper.class;
+
+			logger.info("and here");
 			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
 
+			logger.info("and 2 here");
 			String payload = BaseHelper.toJSONString(requestObject);
 			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, collectionId, payload, apiRequestHelper);
 			responseCodeForInputRequest = conRespPost.getRespCode();
