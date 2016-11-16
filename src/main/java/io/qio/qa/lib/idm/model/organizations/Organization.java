@@ -5,14 +5,14 @@
 package io.qio.qa.lib.idm.model.organizations;
 
 import io.qio.qa.lib.common.Links;
+import io.qio.qa.lib.idm.model.common.Address;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.lang.reflect.Field;
 
-public class Organizations {
+public class Organization {
 	private String name;
-	private String address;
+	private Address address;
 	private String email;
 	private String phoneNumber;
 	private String faxNumber;
@@ -25,26 +25,19 @@ public class Organizations {
 	@JsonProperty("_links")
 	private Links _links;
 
-	public Organizations() {
+	public String getName() {
+		return name;
 	}
 
-	@SuppressWarnings("serial")
-	public Organizations(String timeStamp) {
-		this.name = "ORG" + timeStamp;
-	}
-
-	public Organizations(String name, String address, String phoneNumber, String faxNumber, String email, String logo) {
+	public void setName(String name) {
 		this.name = name;
-		this.address = address;
-		this.email = email;
 	}
-	
-	
-	public String getAddress() {
+
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
@@ -55,7 +48,23 @@ public class Organizations {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getFaxNumber() {
+		return faxNumber;
+	}
+
+	public void setFaxNumber(String faxNumber) {
+		this.faxNumber = faxNumber;
+	}
+
 	public String getLogo() {
 		return logo;
 	}
@@ -63,15 +72,14 @@ public class Organizations {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-	
-	public String getName() {
-		return name;
+
+	public String getOrganizationId() {
+		return organizationId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setOrganizationId(String organizationId) {
+		this.organizationId = organizationId;
 	}
-
 
 	public Links get_links() {
 		return _links;
@@ -79,6 +87,27 @@ public class Organizations {
 
 	public void set_links(Links _links) {
 		this._links = _links;
+	}
+
+	public Organization() {
+	}
+
+	@SuppressWarnings("serial")
+	public Organization(String timeStamp) {
+		Address address = new Address(timeStamp);
+		this.name = "ORG " + timeStamp;
+		this.address = address;
+		this.logo = "LOGO " + timeStamp;
+		this.email = "email@logo.com";
+	}
+
+	public Organization(String name, Address address, String phoneNumber, String faxNumber, String email, String logo) {
+		this.name = name;
+		this.address = address;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.faxNumber = faxNumber;
+		this.logo = logo;
 	}
 
 	// TODO:
@@ -92,10 +121,10 @@ public class Organizations {
 		Logger logger = Logger.getRootLogger();
 		Boolean equalityCheckFlag = true;
 		try {
-			if (!(responseObj instanceof Organizations) || responseObj == null)
+			if (!(responseObj instanceof Organization) || responseObj == null)
 				return false;
 
-			Field[] fields = Organizations.class.getDeclaredFields();
+			Field[] fields = Organization.class.getDeclaredFields();
 			for (Field field : fields) {
 				Object requestVal = field.get(this);
 				Object responseVal = field.get(responseObj);
