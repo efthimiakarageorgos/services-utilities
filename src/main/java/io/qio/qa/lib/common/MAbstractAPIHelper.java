@@ -207,7 +207,8 @@ public class MAbstractAPIHelper {
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
 			methodArgs[4] = APIRequestHelper.class;
-			
+
+			logger.info(APIRequestHelper.class.getSimpleName());
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);

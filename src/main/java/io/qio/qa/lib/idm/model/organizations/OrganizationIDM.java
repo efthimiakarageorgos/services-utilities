@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonProperty;
 import java.lang.reflect.Field;
 
-public class Organization {
+public class OrganizationIDM {
 	private String name;
 	private Address address;
 	private String email;
@@ -89,11 +89,11 @@ public class Organization {
 		this._links = _links;
 	}
 
-	public Organization() {
+	public OrganizationIDM() {
 	}
 
 	@SuppressWarnings("serial")
-	public Organization(String timeStamp) {
+	public OrganizationIDM(String timeStamp) {
 		Address address = new Address(timeStamp);
 		this.name = "ORG " + timeStamp;
 		this.address = address;
@@ -101,7 +101,7 @@ public class Organization {
 		this.email = "email@logo.com";
 	}
 
-	public Organization(String name, Address address, String phoneNumber, String faxNumber, String email, String logo) {
+	public OrganizationIDM(String name, Address address, String phoneNumber, String faxNumber, String email, String logo) {
 		this.name = name;
 		this.address = address;
 		this.email = email;
@@ -121,10 +121,10 @@ public class Organization {
 		Logger logger = Logger.getRootLogger();
 		Boolean equalityCheckFlag = true;
 		try {
-			if (!(responseObj instanceof Organization) || responseObj == null)
+			if (!(responseObj instanceof OrganizationIDM) || responseObj == null)
 				return false;
 
-			Field[] fields = Organization.class.getDeclaredFields();
+			Field[] fields = OrganizationIDM.class.getDeclaredFields();
 			for (Field field : fields) {
 				Object requestVal = field.get(this);
 				Object responseVal = field.get(responseObj);
