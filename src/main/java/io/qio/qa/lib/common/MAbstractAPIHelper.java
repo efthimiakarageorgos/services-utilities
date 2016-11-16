@@ -52,16 +52,12 @@ public class MAbstractAPIHelper {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
 
-			logger.info("I am here");
-
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
 			methodArgs[4] = APIRequestHelper.class;
 
-			logger.info("and here");
 			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
 
-			logger.info("and 2 here");
 			String payload = BaseHelper.toJSONString(requestObject);
 			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, collectionId, payload, apiRequestHelper);
 			responseCodeForInputRequest = conRespPost.getRespCode();
@@ -90,7 +86,26 @@ public class MAbstractAPIHelper {
 			return null;
 		}
 	}
-	
+
+	public static <T> T getResponseObjForUpdate(Object requestObject, String microservice, String environment, String collectionId, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
+		try {
+			initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[6];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
+			methodArgs[5] = APIRequestHelper.class;
+			Method updateMethod = apiHelperObj.getClass().getMethod("update", methodArgs);
+
+			String payload = BaseHelper.toJSONString(requestObject);
+			ConnectionResponse conRespPut = (ConnectionResponse) updateMethod.invoke(apiHelperObj, microservice, environment, payload, collectionId, elementId, apiRequestHelper);
+			responseCodeForInputRequest = conRespPut.getRespCode();
+			return (T) BaseHelper.toClassObject(conRespPut.getRespBody(), classType);
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> void deleteRequestObj(String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
@@ -99,6 +114,23 @@ public class MAbstractAPIHelper {
 			methodArgs[3] = APIRequestHelper.class;
 			Method deleteMethod = apiHelperObj.getClass().getMethod("delete", methodArgs);
 			ConnectionResponse conRespDelete = (ConnectionResponse) deleteMethod.invoke(apiHelperObj, microservice, environment, elementId, apiRequestHelper);
+
+			// TODO
+			// do not know how to capture the response code
+			//responseCodeForInputRequest = conRespDelete.getRespCode();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static <T> void deleteRequestObj(String microservice, String environment, String collectionId, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+		try {
+			initOauthAuthentication(environment, apiRequestHelper);
+			Class[] methodArgs = new Class[5];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
+			methodArgs[4] = APIRequestHelper.class;
+			Method deleteMethod = apiHelperObj.getClass().getMethod("delete", methodArgs);
+			ConnectionResponse conRespDelete = (ConnectionResponse) deleteMethod.invoke(apiHelperObj, microservice, environment, collectionId, elementId, apiRequestHelper);
 
 			// TODO
 			// do not know how to capture the response code
