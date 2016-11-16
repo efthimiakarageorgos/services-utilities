@@ -7,12 +7,16 @@ package io.qio.qa.lib.common;
 import io.qio.qa.lib.apiHelpers.APIRequestHelper;
 import io.qio.qa.lib.connection.ConnectionManager;
 import io.qio.qa.lib.connection.ConnectionResponse;
+import org.apache.log4j.Logger;
 
 public class MBaseAPIHelper {
 	ConnectionManager conManager = null;
+	final static Logger logger = Logger.getRootLogger();
 
 	public ConnectionResponse create(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
 		initConManager();
+		logger.info("AAA");
+		logger.info(getURI(microservice, environment, endpoint));
 		return conManager.post(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 
