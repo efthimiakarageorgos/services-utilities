@@ -18,6 +18,7 @@ import java.util.List;
 
 public class BaseHelper {
 	private static ObjectMapper mapper;
+	final static Logger logger = Logger.getRootLogger();
 
 	public static String toJSONString(Object classObject) throws JsonGenerationException, JsonMappingException, IOException {
 		configureMapperObject();
@@ -69,11 +70,12 @@ public class BaseHelper {
 //		String collectionItemList = embedded.get(key).toString();
 //		logger.info("collectionItemList: " + collectionItemList);
 
-
+		logger.info("I am here");
 		String embedded = collectionListResponseStyleB.get_embedded().toString();
 		int startIndex=embedded.indexOf("[");
 		int endIndex=embedded.indexOf("]")+1;
 		String collectionItemList=embedded.substring(startIndex, endIndex);
+		logger.info("collectionItemList: " + collectionItemList);
 		return collectionItemList;
 	}
 

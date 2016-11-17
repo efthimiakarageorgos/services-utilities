@@ -10,8 +10,6 @@ import io.qio.qa.lib.connection.ConnectionResponse;
 import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
 import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
-//import org.json.simple.JSONObject;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -208,23 +206,26 @@ public class MAbstractAPIHelper {
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
 			methodArgs[4] = APIRequestHelper.class;
 
-			logger.info(APIRequestHelper.class.getSimpleName());
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
 			String responseBody = conRespGet.getRespBody();
 
+			logger.info("BEFORE COMPARISON");
 			//Note that the response depends on the API implementation. In some cases it only contains the list
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
+				logger.info("IN EMB");
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
+				logger.info("before page");
 				pageForInputRequest = collectionListResponseStyleB.getPage();
-				logger.info("after page");
-				linksForInputRequest = collectionListResponseStyleB.get_links();
-				logger.info("after links");
 
+				logger.info("before links");
+				linksForInputRequest = collectionListResponseStyleB.get_links();
+
+				logger.info("before getting content");
 				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
 				logger.info("CItemB " + collectionItemList);
