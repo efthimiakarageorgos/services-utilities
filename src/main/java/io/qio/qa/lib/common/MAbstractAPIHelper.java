@@ -212,23 +212,16 @@ public class MAbstractAPIHelper {
 			responseCodeForInputRequest = conRespGet.getRespCode();
 			String responseBody = conRespGet.getRespBody();
 
-			logger.info("BEFORE COMPARISON");
 			//Note that the response depends on the API implementation. In some cases it only contains the list
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
-				logger.info("IN EMB");
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				logger.info("before page");
 				pageForInputRequest = collectionListResponseStyleB.getPage();
-
-				logger.info("before links");
 				linksForInputRequest = collectionListResponseStyleB.get_links();
 
-				logger.info("before getting content");
 				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
-				logger.info("CItemB " + collectionItemList);
 				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 			} else {
 				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
