@@ -221,10 +221,13 @@ public class MAbstractAPIHelper {
 				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
 				pageForInputRequest = collectionListResponseStyleB.getPage();
+				logger.info("after page");
 				linksForInputRequest = collectionListResponseStyleB.get_links();
+				logger.info("after links");
 
 				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
+				logger.info("CItemB " + collectionItemList);
 				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 			} else {
 				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
