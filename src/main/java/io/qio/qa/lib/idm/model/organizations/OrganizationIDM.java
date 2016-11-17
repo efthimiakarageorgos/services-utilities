@@ -19,8 +19,8 @@ public class OrganizationIDM {
 	private String logo;
 
 	// returned in the response of a POST request
-	@JsonProperty("organizationid")
-	private String organizationId;
+//	@JsonProperty("organizationId")
+//	private String organizationId;
 
 	@JsonProperty("_links")
 	private Links _links;
@@ -73,13 +73,13 @@ public class OrganizationIDM {
 		this.logo = logo;
 	}
 
-	public String getOrganizationId() {
-		return organizationId;
-	}
-
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId;
-	}
+//	public String getOrganizationId() {
+//		return organizationId;
+//	}
+//
+//	public void setOrganizationId(String organizationId) {
+//		this.organizationId = organizationId;
+//	}
 
 	public Links get_links() {
 		return _links;
