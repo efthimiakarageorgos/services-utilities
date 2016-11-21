@@ -4,8 +4,9 @@
  */
 package io.qio.qa.lib.common;
 
+import io.qio.qa.lib.apiHelpers.APIRequestHelper;
 import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
-import org.apache.log4j.Logger;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -14,7 +15,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.codehaus.jackson.map.type.TypeFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 public class BaseHelper {
 	private static ObjectMapper mapper;
@@ -102,5 +105,18 @@ public class BaseHelper {
 			logger.error("Expected Date format: " + dateFormatCheckerRegex);
 		}
 		return dateFormatCheckerFlag;
+	}
+
+
+	public static void deleteListOfCollectionItems(String microservice, String environment, APIRequestHelper apiRequestHeaders, Object apiHelperObj, ArrayList<String> idListForDeletion) {
+		for (String elementId : idListForDeletion) {
+			String[] elementIdArray = elementId.split(":");
+
+			if (elementIdArray.length == 1) {
+				MAbstractAPIHelper.deleteRequestObj(microservice, environment, elementId, apiRequestHeaders, apiHelperObj);
+			} else {
+				MAbstractAPIHelper.deleteRequestObj(microservice, environment, elementIdArray[0], elementIdArray[1], apiRequestHeaders, apiHelperObj);
+			}
+		}
 	}
 }

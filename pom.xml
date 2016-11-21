@@ -4,7 +4,7 @@
 
   <groupId>io.qio.qa.lib</groupId>
   <artifactId>api-test-util</artifactId>
-  <version>1.0.69</version>
+  <version>1.0.70</version>
   <packaging>jar</packaging>
 
   <name>api-test-util</name>
