@@ -4,6 +4,7 @@
  */
 package io.qio.qa.lib.mongoHelpers;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -80,6 +81,23 @@ public class MAbstractMongoHelper
 
             MongoCollection collection = database.getCollection(collectionName);
             collection.insertOne(doc);
+            mongoClient.close();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCollectionItemsFromMongoDbCollectionBasedOnElementValue(String[] objectList, String URI, String mongoDb, String collectionName, String elementName) { //objectList is a list of vesselId to be deleted
+        try {
+            MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
+            MongoDatabase database = mongoClient.getDatabase(mongoDb);
+            MongoCollection collection = database.getCollection(collectionName);
+
+            BasicDBObject documentToDelete = new BasicDBObject();
+            for (int i = 0; i < objectList.length; i++){
+                documentToDelete.append(elementName, objectList[i] );
+                collection.deleteMany(documentToDelete);
+            }
             mongoClient.close();
         } catch (RuntimeException e) {
             e.printStackTrace();
