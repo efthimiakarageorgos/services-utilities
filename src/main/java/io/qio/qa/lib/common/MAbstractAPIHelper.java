@@ -217,6 +217,24 @@ public class MAbstractAPIHelper {
 		}
 	}
 
+	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
+		try {
+			initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[5];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
+			methodArgs[4] = APIRequestHelper.class;
+			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, apiRequestHelper);
+			responseCodeForInputRequest = conRespGet.getRespCode();
+			return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
