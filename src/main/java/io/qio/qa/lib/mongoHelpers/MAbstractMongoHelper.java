@@ -14,7 +14,10 @@ import com.mongodb.client.MongoDatabase;
 
 import org.apache.log4j.Logger;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class MAbstractMongoHelper
@@ -83,18 +86,28 @@ public class MAbstractMongoHelper
         }
     }
 
-    public static void deleteCollectionItemsFromMongoDbCollectionBasedOnElementValue(String[] objectList, String URI, String mongoDb, String collectionName, String elementName) { //objectList is a list of vesselId to be deleted
+    public static void deleteCollectionItemsFromMongoDbCollectionBasedOnElementValue(ArrayList<String> elementValueList, String URI, String mongoDb, String collectionName, String elementName) { //objectList is a list of vesselId to be deleted
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
             MongoDatabase database = mongoClient.getDatabase(mongoDb);
             MongoCollection collection = database.getCollection(collectionName);
 
             BasicDBObject documentToDelete = new BasicDBObject();
-            for (int i = 0; i < objectList.length; i++){
-                logger.info("I   AM     HERE  "+objectList[i] + "element name "+elementName);
-                documentToDelete.append(elementName, objectList[i] );
+
+            for (String elementValue : elementValueList) {
+                logger.info("elementValue:  "+elementValue + "element name: "+elementName);
+                if (elementName.equals("_id")) {
+                    documentToDelete.append(elementName, new ObjectId(elementValue));
+                } else {
+                    documentToDelete.append(elementName, elementValue);
+                }
                 collection.deleteMany(documentToDelete);
             }
+//            for (int i = 0; i < objectList.length; i++){
+//                logger.info("I   AM     HERE  "+objectList[i] + "element name "+elementName);
+//                documentToDelete.append(elementName, objectList[i] );
+//                collection.deleteMany(documentToDelete);
+//            }
             mongoClient.close();
         } catch (RuntimeException e) {
             e.printStackTrace();
