@@ -10,6 +10,10 @@ public class Page {
 	private int totalPages;
 	private int number;
 
+	private Boolean last;
+	private Boolean first;
+	private int numberOfElements;
+
 	public int getSize() {
 		return size;
 	}
@@ -24,5 +28,17 @@ public class Page {
 
 	public int getNumber() {
 		return number;
+	}
+
+	public int getNumberOfElements() {
+		return numberOfElements;
+	}
+
+	public Boolean getLast() {
+		return last;
+	}
+
+	public Boolean getFirst() {
+		return first;
 	}
 }

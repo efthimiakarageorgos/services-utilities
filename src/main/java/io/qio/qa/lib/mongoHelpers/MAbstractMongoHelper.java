@@ -4,18 +4,18 @@
  */
 package io.qio.qa.lib.mongoHelpers;
 
+import io.qio.qa.lib.common.BaseHelper;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import io.qio.qa.lib.common.BaseHelper;
+
 import org.apache.log4j.Logger;
 import org.bson.Document;
-
 import java.io.IOException;
 
-//import com.mongodb.util.JSON;
 
 public class MAbstractMongoHelper
 {
@@ -25,10 +25,6 @@ public class MAbstractMongoHelper
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
             MongoDatabase database = mongoClient.getDatabase(mongoDb);
-
-            //DBObject bson = ( DBObject ) JSON.parse(BaseHelper.toJSONString(requestObject) );
-            //logger.info(bson.toString());
-            //Document doc = Document.parse(bson.toString());
 
             Document doc = Document.parse(BaseHelper.toJSONString(requestObject));
 
@@ -95,6 +91,7 @@ public class MAbstractMongoHelper
 
             BasicDBObject documentToDelete = new BasicDBObject();
             for (int i = 0; i < objectList.length; i++){
+                logger.info("I   AM     HERE  "+objectList[i] + "element name "+elementName);
                 documentToDelete.append(elementName, objectList[i] );
                 collection.deleteMany(documentToDelete);
             }
