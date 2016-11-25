@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 public class MAbstractAPIHelper {
@@ -225,8 +228,21 @@ public class MAbstractAPIHelper {
 				logger.info("getListResponseObjForRetrieve 1: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
-				JSONObject emb = (JSONObject) json.get("_embedded");
-				JSONArray embArr = (JSONArray) json.get("_embedded");
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
 
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
@@ -273,8 +289,21 @@ public class MAbstractAPIHelper {
 				logger.info("getListResponseObjForRetrieve 2: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
-				JSONObject emb = (JSONObject) json.get("_embedded");
-				JSONArray embArr = (JSONArray) json.get("_embedded");
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
 
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
@@ -321,8 +350,21 @@ public class MAbstractAPIHelper {
 				logger.info("getListResponseObjForRetrieve 3: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
-				JSONObject emb = (JSONObject) json.get("_embedded");
-				JSONArray embArr = (JSONArray) json.get("_embedded");
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
 
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
@@ -371,8 +413,21 @@ public class MAbstractAPIHelper {
 				logger.info("getListResponseObjForRetrieveBySearch 1: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
-				JSONObject emb = (JSONObject) json.get("_embedded");
-				JSONArray embArr = (JSONArray) json.get("_embedded");
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
 
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
@@ -427,13 +482,13 @@ public class MAbstractAPIHelper {
 				try {
 					emb = (JSONObject) json.get("_embedded");
 				} catch (ClassCastException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 
 				try {
 					embArr = (JSONArray) json.get("_embedded");
 				} catch (ClassCastException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 
 				if (!embArr.isEmpty()) {
@@ -448,6 +503,13 @@ public class MAbstractAPIHelper {
 					pageForInputRequest = collectionListResponseStyleB.getPage();
 					linksForInputRequest = collectionListResponseStyleB.get_links();
 
+					//Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
+					Set<String> keys = emb.keySet();
+					for (String key : keys) {
+						Object obj = json.get(key);
+						logger.info("The key is "+obj.toString());
+						logger.info("Its value is " + emb.get(obj));
+					}
 					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
