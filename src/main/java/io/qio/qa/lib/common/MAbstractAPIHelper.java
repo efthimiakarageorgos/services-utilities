@@ -504,12 +504,12 @@ public class MAbstractAPIHelper {
 					linksForInputRequest = collectionListResponseStyleB.get_links();
 
 					//Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
-					Set<String> keys = emb.keySet();
-					for (String key : keys) {
-						Object obj = json.get(key);
-						logger.info("The key is "+obj.toString());
-						logger.info("Its value is " + emb.get(obj));
-					}
+//					Set<String> keys = emb.keySet();
+//					for (String key : keys) {
+//						Object obj = json.get(key);
+//						logger.info("The key is "+obj.toString());
+//						logger.info("Its value is " + emb.get(obj));
+//					}
 					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
