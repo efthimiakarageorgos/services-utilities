@@ -73,8 +73,8 @@ public class BaseHelper {
 //		String collectionItemList = embedded.get(key).toString();
 //		logger.info("collectionItemList: " + collectionItemList);
 
-		logger.info("I am here");
 		String embedded = collectionListResponseStyleB.get_embedded().toString();
+
 		int startIndex=embedded.indexOf("[");
 		int endIndex=embedded.indexOf("]")+1;
 		String collectionItemList=embedded.substring(startIndex, endIndex);
