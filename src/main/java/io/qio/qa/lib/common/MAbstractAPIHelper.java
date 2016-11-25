@@ -222,7 +222,7 @@ public class MAbstractAPIHelper {
 			//Note that the response depends on the API implementation. In some cases it only contains the list
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieveBySearch 1: embedded");
+				logger.info("getListResponseObjForRetrieve 1: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
 				JSONObject emb = (JSONObject) json.get("_embedded");
@@ -236,7 +236,7 @@ public class MAbstractAPIHelper {
 					logger.info("It is NOT an array");
 					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-					logger.info("getListResponseObjForRetrieveBySearch 1: get page and links");
+					logger.info("getListResponseObjForRetrieve 1: get page and links");
 					pageForInputRequest = collectionListResponseStyleB.getPage();
 					linksForInputRequest = collectionListResponseStyleB.get_links();
 
@@ -271,19 +271,31 @@ public class MAbstractAPIHelper {
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
 				logger.info("getListResponseObjForRetrieve 2: embedded");
-				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(responseBody);
+				JSONObject emb = (JSONObject) json.get("_embedded");
+				JSONArray embArr = (JSONArray) json.get("_embedded");
 
-				logger.info("getListResponseObjForRetrieve 2: get page and links");
-				pageForInputRequest = collectionListResponseStyleB.getPage();
-				linksForInputRequest = collectionListResponseStyleB.get_links();
+				if (!embArr.isEmpty()) {
+					logger.info("It is an array");
+					String collectionItemList = embArr.toJSONString();
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				} else {
+					logger.info("It is NOT an array");
+					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+					logger.info("getListResponseObjForRetrieve 2: get page and links");
+					pageForInputRequest = collectionListResponseStyleB.getPage();
+					linksForInputRequest = collectionListResponseStyleB.get_links();
 
-				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				}
 			} else {
 				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
 			}
-		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -307,19 +319,31 @@ public class MAbstractAPIHelper {
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
 				logger.info("getListResponseObjForRetrieve 3: embedded");
-				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(responseBody);
+				JSONObject emb = (JSONObject) json.get("_embedded");
+				JSONArray embArr = (JSONArray) json.get("_embedded");
 
-				logger.info("getListResponseObjForRetrieve 3: get page and links");
-				pageForInputRequest = collectionListResponseStyleB.getPage();
-				linksForInputRequest = collectionListResponseStyleB.get_links();
+				if (!embArr.isEmpty()) {
+					logger.info("It is an array");
+					String collectionItemList = embArr.toJSONString();
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				} else {
+					logger.info("It is NOT an array");
+					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+					logger.info("getListResponseObjForRetrieve 3: get page and links");
+					pageForInputRequest = collectionListResponseStyleB.getPage();
+					linksForInputRequest = collectionListResponseStyleB.get_links();
 
-				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				}
 			} else {
 				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
 			}
-		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -377,6 +401,7 @@ public class MAbstractAPIHelper {
 
 
 	public static <T> List<T> getResponseObjForRetrieveAll(String microservice, String environment, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
+		logger.info("getListResponseObjForRetrieveAll 1");
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
 
@@ -392,18 +417,32 @@ public class MAbstractAPIHelper {
 			//Note that the response depends on the API implementation. In some cases it only contains the list
 			//of collection items, in others the list is a json key:value pair under an "_embedded" element
 			if (responseBody.contains("_embedded")) {
-				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+				logger.info("getListResponseObjForRetrieveAll 1: embedded");
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(responseBody);
+				JSONObject emb = (JSONObject) json.get("_embedded");
+				JSONArray embArr = (JSONArray) json.get("_embedded");
 
-				pageForInputRequest = collectionListResponseStyleB.getPage();
-				linksForInputRequest = collectionListResponseStyleB.get_links();
+				if (!embArr.isEmpty()) {
+					logger.info("It is an array");
+					String collectionItemList = embArr.toJSONString();
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				} else {
+					logger.info("It is NOT an array");
+					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+					logger.info("getListResponseObjForRetrieveAll 1: get page and links");
+					pageForInputRequest = collectionListResponseStyleB.getPage();
+					linksForInputRequest = collectionListResponseStyleB.get_links();
 
-				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				}
 			} else {
 				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
 			}
-		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
