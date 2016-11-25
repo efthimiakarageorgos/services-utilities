@@ -420,8 +420,21 @@ public class MAbstractAPIHelper {
 				logger.info("getListResponseObjForRetrieveAll 1: embedded");
 				JSONParser parser = new JSONParser();
 				JSONObject json = (JSONObject) parser.parse(responseBody);
-				JSONObject emb = (JSONObject) json.get("_embedded");
-				JSONArray embArr = (JSONArray) json.get("_embedded");
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+				}
 
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
