@@ -210,7 +210,22 @@ public class MAbstractAPIHelper {
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
-			return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			String responseBody = conRespGet.getRespBody();
+
+			//Note that the response depends on the API implementation. In some cases it only contains the list
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+			if (responseBody.contains("_embedded")) {
+				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
+
+				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+			} else {
+				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			}
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -228,7 +243,22 @@ public class MAbstractAPIHelper {
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
-			return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			String responseBody = conRespGet.getRespBody();
+
+			//Note that the response depends on the API implementation. In some cases it only contains the list
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+			if (responseBody.contains("_embedded")) {
+				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
+
+				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+			} else {
+				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			}
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
 			e.printStackTrace();
 			return null;
@@ -246,7 +276,22 @@ public class MAbstractAPIHelper {
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper);
 			responseCodeForInputRequest = conRespGet.getRespCode();
-			return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			String responseBody = conRespGet.getRespBody();
+
+			//Note that the response depends on the API implementation. In some cases it only contains the list
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+			if (responseBody.contains("_embedded")) {
+				CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
+
+				String collectionItemList=BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+				return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+			} else {
+				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			}
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
 			e.printStackTrace();
 			return null;
