@@ -247,6 +247,15 @@ public class MAbstractAPIHelper {
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
+
+					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					pageForInputRequest.setLast((Boolean) json.get("last"));
+					pageForInputRequest.setNumber((int) json.get("number"));
+					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
+					pageForInputRequest.setSize((int) json.get("size"));
+					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
@@ -308,6 +317,15 @@ public class MAbstractAPIHelper {
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
+
+					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					pageForInputRequest.setLast((Boolean) json.get("last"));
+					pageForInputRequest.setNumber((int) json.get("number"));
+					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
+					pageForInputRequest.setSize((int) json.get("size"));
+					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
@@ -369,6 +387,15 @@ public class MAbstractAPIHelper {
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
+
+					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					pageForInputRequest.setLast((Boolean) json.get("last"));
+					pageForInputRequest.setNumber((int) json.get("number"));
+					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
+					pageForInputRequest.setSize((int) json.get("size"));
+					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
@@ -432,6 +459,15 @@ public class MAbstractAPIHelper {
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
+
+					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					pageForInputRequest.setLast((Boolean) json.get("last"));
+					pageForInputRequest.setNumber((int) json.get("number"));
+					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
+					pageForInputRequest.setSize((int) json.get("size"));
+					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
@@ -494,6 +530,15 @@ public class MAbstractAPIHelper {
 				if (!embArr.isEmpty()) {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
+
+					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					pageForInputRequest.setLast((Boolean) json.get("last"));
+					pageForInputRequest.setNumber((int) json.get("number"));
+					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
+					pageForInputRequest.setSize((int) json.get("size"));
+					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
