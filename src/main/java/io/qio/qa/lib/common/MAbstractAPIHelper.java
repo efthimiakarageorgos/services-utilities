@@ -390,15 +390,18 @@ public class MAbstractAPIHelper {
 
 					Boolean bl = (Boolean) json.get("first");
 					logger.info("sdsdfsddf");
-					pageForInputRequest.setFirst((Boolean) json.get("first"));
-					logger.info("333333333333333333");
-					pageForInputRequest.setLast((Boolean) json.get("last"));
-					pageForInputRequest.setNumber((int) json.get("number"));
-					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
-					pageForInputRequest.setSize((int) json.get("size"));
-					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
+					Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					logger.info("333333333333333333");
+					pg.setLast((Boolean) json.get("last"));
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					logger.info("44444");
+					pageForInputRequest = pg;
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
