@@ -248,13 +248,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
-					pageForInputRequest.setFirst((Boolean) json.get("first"));
-					pageForInputRequest.setLast((Boolean) json.get("last"));
-					pageForInputRequest.setNumber((int) json.get("number"));
-					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
-					pageForInputRequest.setSize((int) json.get("size"));
-					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
+					/*Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					pageForInputRequest = pg;*/
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -318,13 +321,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
-					pageForInputRequest.setFirst((Boolean) json.get("first"));
-					pageForInputRequest.setLast((Boolean) json.get("last"));
-					pageForInputRequest.setNumber((int) json.get("number"));
-					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
-					pageForInputRequest.setSize((int) json.get("size"));
-					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
+					/*Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					pageForInputRequest = pg;*/
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -388,20 +394,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
-					Boolean bl = (Boolean) json.get("first");
-					logger.info("sdsdfsddf");
-
-					Page pg = new Page();
+					/*Page pg = new Page();
 					pg.setFirst((Boolean) json.get("first"));
-					logger.info("333333333333333333");
 					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
 					pg.setNumber((int) json.get("number"));
 					pg.setNumberOfElements((int) json.get("mumberOfElements"));
 					pg.setSize((int) json.get("size"));
 					pg.setTotalElements((int) json.get("totalElements"));
 					pg.setTotalPages((int) json.get("totalPages"));
-					logger.info("44444");
-					pageForInputRequest = pg;
+					pageForInputRequest = pg;*/
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
 					logger.info("It is NOT an array");
@@ -466,13 +468,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
-					pageForInputRequest.setFirst((Boolean) json.get("first"));
-					pageForInputRequest.setLast((Boolean) json.get("last"));
-					pageForInputRequest.setNumber((int) json.get("number"));
-					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
-					pageForInputRequest.setSize((int) json.get("size"));
-					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
+					/*Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					pageForInputRequest = pg;*/
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -537,13 +542,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
-					pageForInputRequest.setFirst((Boolean) json.get("first"));
-					pageForInputRequest.setLast((Boolean) json.get("last"));
-					pageForInputRequest.setNumber((int) json.get("number"));
-					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
-					pageForInputRequest.setSize((int) json.get("size"));
-					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
+					/*Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					pageForInputRequest = pg;*/
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
