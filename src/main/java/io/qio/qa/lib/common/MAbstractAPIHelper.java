@@ -254,7 +254,7 @@ public class MAbstractAPIHelper {
 					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
 					pageForInputRequest.setSize((int) json.get("size"));
 					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -324,7 +324,7 @@ public class MAbstractAPIHelper {
 					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
 					pageForInputRequest.setSize((int) json.get("size"));
 					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -388,13 +388,16 @@ public class MAbstractAPIHelper {
 					logger.info("It is an array");
 					String collectionItemList = embArr.toJSONString();
 
+					Boolean bl = (Boolean) json.get("first");
+					logger.info("sdsdfsddf");
 					pageForInputRequest.setFirst((Boolean) json.get("first"));
+					logger.info("333333333333333333");
 					pageForInputRequest.setLast((Boolean) json.get("last"));
 					pageForInputRequest.setNumber((int) json.get("number"));
 					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
 					pageForInputRequest.setSize((int) json.get("size"));
 					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -466,7 +469,7 @@ public class MAbstractAPIHelper {
 					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
 					pageForInputRequest.setSize((int) json.get("size"));
 					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
@@ -537,7 +540,7 @@ public class MAbstractAPIHelper {
 					pageForInputRequest.setNumberOfElements((int) json.get("mumberOfElements"));
 					pageForInputRequest.setSize((int) json.get("size"));
 					pageForInputRequest.setTotalElements((int) json.get("totalElements"));
-					pageForInputRequest.setTotalPages((int) json.get("totalElements"));
+					pageForInputRequest.setTotalPages((int) json.get("totalPages"));
 
 					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
 				} else {
