@@ -426,6 +426,79 @@ public class MAbstractAPIHelper {
 		}
 	}
 
+	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType, String page, String pageSize) {
+		logger.info("getListResponseObjForRetrieve 3 with page/pageSize args");
+		try {
+			initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[8];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
+			methodArgs[5] = APIRequestHelper.class;
+			methodArgs[6] = methodArgs[7] = String.class;
+			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper);
+			responseCodeForInputRequest = conRespGet.getRespCode();
+			String responseBody = conRespGet.getRespBody();
+
+			//Note that the response depends on the API implementation. In some cases it only contains the list
+			//of collection items, in others the list is a json key:value pair under an "_embedded" element
+			if (responseBody.contains("_embedded")) {
+				logger.info("getListResponseObjForRetrieve 3: embedded");
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(responseBody);
+
+				JSONObject emb = new JSONObject();
+				JSONArray embArr = new JSONArray();
+
+				try {
+					emb = (JSONObject) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				try {
+					embArr = (JSONArray) json.get("_embedded");
+				} catch (ClassCastException e) {
+					//e.printStackTrace();
+				}
+
+				if (!embArr.isEmpty()) {
+					logger.info("It is an array");
+					String collectionItemList = embArr.toJSONString();
+
+					/*Page pg = new Page();
+					pg.setFirst((Boolean) json.get("first"));
+					pg.setLast((Boolean) json.get("last"));
+					// THIS FAILS as it seems that number is "Long" and not "int"
+					pg.setNumber((int) json.get("number"));
+					pg.setNumberOfElements((int) json.get("mumberOfElements"));
+					pg.setSize((int) json.get("size"));
+					pg.setTotalElements((int) json.get("totalElements"));
+					pg.setTotalPages((int) json.get("totalPages"));
+					pageForInputRequest = pg;*/
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				} else {
+					logger.info("It is NOT an array");
+					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
+
+					logger.info("getListResponseObjForRetrieve 3: get page and links");
+					pageForInputRequest = collectionListResponseStyleB.getPage();
+					linksForInputRequest = collectionListResponseStyleB.get_links();
+
+					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+				}
+			} else {
+				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+			}
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> List<T> getListResponseObjForRetrieveBySearch(String microservice, String environment, String searchBy, String searchValue, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieveBySearch 1");
 		try {
