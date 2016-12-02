@@ -425,7 +425,7 @@ public class MAbstractAPIHelper {
 
 
                 logger.info("AAAAAAAA");
-				pageForInputRequest = collectionListResponseStyleB.getPage();
+				//pageForInputRequest = collectionListResponseStyleB.getPage();
 
 
                 //Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
