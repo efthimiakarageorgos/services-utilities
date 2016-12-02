@@ -421,8 +421,12 @@ public class MAbstractAPIHelper {
                 CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
                 logger.info("getListResponseObjForRetrieve: get page and links");
-                pageForInputRequest = collectionListResponseStyleB.getPage();
-                linksForInputRequest = collectionListResponseStyleB.get_links();
+				linksForInputRequest = collectionListResponseStyleB.get_links();
+
+
+                logger.info("AAAAAAAA");
+				pageForInputRequest = collectionListResponseStyleB.getPage();
+
 
                 //Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
 //					Set<String> keys = emb.keySet();
@@ -433,7 +437,6 @@ public class MAbstractAPIHelper {
 //					}
 
                 String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
                 return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
             }
         } else {
