@@ -432,9 +432,7 @@ public class MAbstractAPIHelper {
 //						logger.info("Its value is " + emb.get(obj));
 //					}
 
-				if (collectionListResponseStyleB == null) logger.info("BBBB");
                 String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-				logger.info("AAAAAAAA");
                 return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
             }
         } else {
