@@ -72,7 +72,7 @@ public class MAbstractMongoHelper
                 .append("latitude", 37.4224764)
                 .append("longitude", -122.0842499);
 
-        logger.info(person.toJson().toString());
+        //logger.info(person.toJson().toString());
 
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
@@ -92,10 +92,11 @@ public class MAbstractMongoHelper
             MongoDatabase database = mongoClient.getDatabase(mongoDb);
             MongoCollection collection = database.getCollection(collectionName);
 
-            BasicDBObject documentToDelete = new BasicDBObject();
+            BasicDBObject documentToDelete;
 
             for (String elementValue : elementValueList) {
-                logger.info("elementValue:  "+elementValue + "element name: "+elementName);
+                //logger.info("elementValue:  "+elementValue + "element name: "+elementName);
+                documentToDelete = new BasicDBObject();
                 if (elementName.equals("_id")) {
                     documentToDelete.append(elementName, new ObjectId(elementValue));
                 } else {
