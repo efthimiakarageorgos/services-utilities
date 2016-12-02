@@ -5,12 +5,13 @@
 package io.qio.qa.lib.common;
 
 import io.qio.qa.lib.apiHelpers.APIRequestHelper;
+import io.qio.qa.lib.common.BaseHelper;
+import io.qio.qa.lib.common.Links;
+import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import io.qio.qa.lib.common.model.Page;
 import io.qio.qa.lib.connection.ConnectionResponse;
 import io.qio.qa.lib.idm.apiHelpers.MOauthAPIHelper;
-import io.qio.qa.lib.common.model.CollectionListResponseStyleB;
 import org.apache.log4j.Logger;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,13 +21,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.Map;
 
 
 public class MAbstractAPIHelper {
-
 	public static int responseCodeForInputRequest;
 	public static Page pageForInputRequest = null;
 	public static Links linksForInputRequest = null;
@@ -190,7 +187,7 @@ public class MAbstractAPIHelper {
 	}
 
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj,
-												  Class<T> classType) {
+                                                  Class<T> classType) {
 		try {
 			initOauthAuthentication(environment, apiRequestHelper);
 
@@ -219,62 +216,8 @@ public class MAbstractAPIHelper {
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieve 1: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
-
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
-
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
-
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieve 1: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -292,62 +235,8 @@ public class MAbstractAPIHelper {
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieve 2: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
-
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
-
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
-
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieve 2: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -365,61 +254,8 @@ public class MAbstractAPIHelper {
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieve 3: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
-
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
-
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
-
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieve 3: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -437,62 +273,9 @@ public class MAbstractAPIHelper {
 			methodArgs[6] = methodArgs[7] = String.class;
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
-			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper, page, pageSize);
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieve 3: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
-
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
-
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
-
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieve 3: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -511,63 +294,8 @@ public class MAbstractAPIHelper {
 			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, searchBy, searchValue, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieveBySearch 1: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
-
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
-
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
-
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
-
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieveBySearch 1: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -586,73 +314,131 @@ public class MAbstractAPIHelper {
 			Method retrieveAllMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
 
 			ConnectionResponse conRespGet = (ConnectionResponse) retrieveAllMethod.invoke(apiHelperObj, microservice, environment, apiRequestHelper);
-			responseCodeForInputRequest = conRespGet.getRespCode();
-			String responseBody = conRespGet.getRespBody();
 
-			//Note that the response depends on the API implementation. In some cases it only contains the list
-			//of collection items, in others the list is a json key:value pair under an "_embedded" element
-			if (responseBody.contains("_embedded")) {
-				logger.info("getListResponseObjForRetrieveAll 1: embedded");
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(responseBody);
+			return formListResponseBasedOnResponseFormat(conRespGet, classType);
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-				JSONObject emb = new JSONObject();
-				JSONArray embArr = new JSONArray();
+	public static <T> List<T> formListResponseBasedOnResponseFormat(ConnectionResponse conRespGet, Class<T> classType) throws IOException, ParseException {
+		responseCodeForInputRequest = conRespGet.getRespCode();
+		String responseBody = conRespGet.getRespBody();
 
-				try {
-					emb = (JSONObject) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
+		//Note that the response depends on the API implementation. In some cases it only contains the list
+		//of collection items, in others the list is a json key:value pair under an "_embedded" element
+        if (responseBody.contains("_embedded")) {
+            logger.info("getListResponseObjForRetrieve: embedded");
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(responseBody);
+
+            JSONObject emb = new JSONObject();
+            JSONArray embArr = new JSONArray();
+
+            try {
+                emb = (JSONObject) json.get("_embedded");
+            } catch (ClassCastException e) {
+                //e.printStackTrace();
+            }
+
+            try {
+                embArr = (JSONArray) json.get("_embedded");
+            } catch (ClassCastException e) {
+                //e.printStackTrace();
+            }
+
+            if (!embArr.isEmpty()) {
+                logger.info("It is an array");
+                String collectionItemList = embArr.toJSONString();
+
+				Links pageLinks = new Links();
+
+				JSONObject pageLinksObj = null;
+				pageLinksObj = (JSONObject) json.get("_links");
+
+				if (pageLinksObj != null) {
+					//try {
+					JSONObject lastPageLinkObj = null;
+					JSONObject firstPageLinkObj = null;
+					JSONObject previousPageLinkObj = null;
+					JSONObject nextPageLinkObj = null;
+
+					lastPageLinkObj = (JSONObject) pageLinksObj.get("lastPage");
+					firstPageLinkObj = (JSONObject) pageLinksObj.get("firstPage");
+					previousPageLinkObj = (JSONObject) pageLinksObj.get("previousPage");
+					nextPageLinkObj = (JSONObject) pageLinksObj.get("nextPage");
+
+					//Page pg = new Page((Long) json.get("size"), (Long) json.get("totalElements"), (Long) json.get("totalPages"), (Long) json.get("number"), (Long) json.get("numberOfElements"), (Boolean) json.get("last"), (Boolean) json.get("first"), null);
+					//pageForInputRequest = pg;
+
+					if (lastPageLinkObj != null) {
+						Links.LastPageLink lastPage = pageLinks.new LastPageLink();
+						String lastPageLinkHref = ((String) lastPageLinkObj.get("href"));
+						lastPage.setHref(lastPageLinkHref);
+						pageLinks.setLastPage(lastPage);
+
+						logger.info(pageLinks.getLastPage().getHref());
+					}
+
+					if (firstPageLinkObj != null) {
+						Links.FirstPageLink firstPage = pageLinks.new FirstPageLink();
+						String firstPageLinkHref = ((String) firstPageLinkObj.get("href"));
+						firstPage.setHref(firstPageLinkHref);
+						pageLinks.setFirstPage(firstPage);
+
+						logger.info(pageLinks.getFirstPage().getHref());
+					}
+
+					if (nextPageLinkObj != null) {
+						Links.NextPageLink nextPage = pageLinks.new NextPageLink();
+						String nextPageLinkHref = ((String) nextPageLinkObj.get("href"));
+						nextPage.setHref(nextPageLinkHref);
+						pageLinks.setNextPage(nextPage);
+
+						logger.info(pageLinks.getNextPage().getHref());
+					}
+
+					if (previousPageLinkObj != null) {
+						Links.PreviousPageLink previousPage = pageLinks.new PreviousPageLink();
+						String previousPageLinkHref = ((String) previousPageLinkObj.get("href"));
+						previousPage.setHref(previousPageLinkHref);
+						pageLinks.setPreviousPage(previousPage);
+
+						logger.info(pageLinks.getPreviousPage().getHref());
+					}
 				}
 
-				try {
-					embArr = (JSONArray) json.get("_embedded");
-				} catch (ClassCastException e) {
-					//e.printStackTrace();
-				}
+				Page pg = new Page((Long) json.get("size"), (Long) json.get("totalElements"), (Long) json.get("totalPages"), (Long) json.get("number"), (Long) json.get("numberOfElements"), (Boolean) json.get("last"), (Boolean) json.get("first"), pageLinks);
+				//pg.set_links(pageLinks);
+				pageForInputRequest = pg;
+				/*} catch (RuntimeException e) {
+					e.printStackTrace();
+				}*/
+                return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+            } else {
+                logger.info("It is NOT an array");
+                CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
 
-				if (!embArr.isEmpty()) {
-					logger.info("It is an array");
-					String collectionItemList = embArr.toJSONString();
+                logger.info("getListResponseObjForRetrieve: get page and links");
+                pageForInputRequest = collectionListResponseStyleB.getPage();
+                linksForInputRequest = collectionListResponseStyleB.get_links();
 
-					/*Page pg = new Page();
-					pg.setFirst((Boolean) json.get("first"));
-					pg.setLast((Boolean) json.get("last"));
-					// THIS FAILS as it seems that number is "Long" and not "int"
-					pg.setNumber((int) json.get("number"));
-					pg.setNumberOfElements((int) json.get("mumberOfElements"));
-					pg.setSize((int) json.get("size"));
-					pg.setTotalElements((int) json.get("totalElements"));
-					pg.setTotalPages((int) json.get("totalPages"));
-					pageForInputRequest = pg;*/
-
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				} else {
-					logger.info("It is NOT an array");
-					CollectionListResponseStyleB collectionListResponseStyleB = BaseHelper.toClassObject(responseBody, CollectionListResponseStyleB.class);
-
-					logger.info("getListResponseObjForRetrieveAll 1: get page and links");
-					pageForInputRequest = collectionListResponseStyleB.getPage();
-					linksForInputRequest = collectionListResponseStyleB.get_links();
-
-					//Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
+                //Expirimenting to see if we could use something like this instead of getCollectionItemListFromEmbeddedElement
 //					Set<String> keys = emb.keySet();
 //					for (String key : keys) {
 //						Object obj = json.get(key);
 //						logger.info("The key is "+obj.toString());
 //						logger.info("Its value is " + emb.get(obj));
 //					}
-					String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
 
-					return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
-				}
-			} else {
-				return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
-			}
-		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException | ParseException e) {
-			e.printStackTrace();
-			return null;
-		}
+                String collectionItemList = BaseHelper.getCollectionItemListFromEmbeddedElement(collectionListResponseStyleB);
+
+                return (List<T>) BaseHelper.toClassObjectList(collectionItemList, classType);
+            }
+        } else {
+            return (List<T>) BaseHelper.toClassObjectList(conRespGet.getRespBody(), classType);
+        }
 	}
 
 	/*
