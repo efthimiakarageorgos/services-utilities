@@ -6,18 +6,21 @@ package io.qio.qa.lib.common;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonProperty;
-
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import java.lang.reflect.Field;
 
 public class Links {
-	@JsonProperty("first")
-	private FirstPageLink firstPageLink;
+	@JsonProperty("firstPage")
+	private FirstPageLink firstPage;
 
-	@JsonProperty("last")
-	private LastPageLink lastPageLink;
+	@JsonProperty("lastPage")
+	private LastPageLink lastPage;
 
-	@JsonProperty("next")
-	private NextPageLink nextPageLink;
+	@JsonProperty("nextPage")
+	private NextPageLink nextPage;
+
+	@JsonProperty("previous")
+	private PreviousPageLink previousPage;
 
 	@JsonProperty("profile")
 	private ProfileLink profileLink;
@@ -25,36 +28,56 @@ public class Links {
 	@JsonProperty("self")
 	private SelfLink selfLink;
 
+	public Links() {
+	}
+
+	public Links(FirstPageLink firstPage, LastPageLink lastPage, NextPageLink nextPage, PreviousPageLink previousPage, ProfileLink profileLink, SelfLink self) {
+		this.firstPage = firstPage;
+		this.lastPage = lastPage;
+		this.nextPage = nextPage;
+		this.previousPage = previousPage;
+		this.profileLink = profileLink;
+		this.selfLink = self;
+	}
+
+	public FirstPageLink getFirstPage() {
+		return firstPage;
+	}
+
+	public void setFirstPage(FirstPageLink firstPage) {
+		this.firstPage = firstPage;
+	}
+
+	public LastPageLink getLastPage() {
+		return lastPage;
+	}
+
+	public void setLastPage(LastPageLink lastPage) {
+		this.lastPage = lastPage;
+	}
+
+	public NextPageLink getNextPage() {
+		return nextPage;
+	}
+
+	public void setNextPage(NextPageLink nextPage) {
+		this.nextPage = nextPage;
+	}
+
+	public PreviousPageLink getPreviousPage() {
+		return previousPage;
+	}
+
+	public void setPreviousPage(PreviousPageLink previousPage) {
+		this.previousPage = previousPage;
+	}
+
 	public SelfLink getSelfLink() {
 		return selfLink;
 	}
 
 	public void setSelfLink(SelfLink self) {
 		this.selfLink = self;
-	}
-
-	public FirstPageLink getFirstPageLink() {
-		return firstPageLink;
-	}
-
-	public void setFirstPageLink(FirstPageLink firstPageLink) {
-		this.firstPageLink = firstPageLink;
-	}
-
-	public LastPageLink getLastPageLink() {
-		return lastPageLink;
-	}
-
-	public void setLastPageLink(LastPageLink lastPageLink) {
-		this.lastPageLink = lastPageLink;
-	}
-
-	public NextPageLink getNextPageLink() {
-		return nextPageLink;
-	}
-
-	public void setNextPageLink(NextPageLink nextPageLink) {
-		this.nextPageLink = nextPageLink;
 	}
 
 	public ProfileLink getProfileLink() {
@@ -98,6 +121,13 @@ public class Links {
 		@JsonProperty("href")
 		String href;
 
+		public HrefLinks() {
+		}
+
+		public HrefLinks(String href) {
+			this.href = href;
+		}
+
 		public String getHref() {
 			return href;
 		}
@@ -139,9 +169,11 @@ public class Links {
 				responseHrefForValidation = responseHref.substring(0, idx - 1);
 			}
 
-			if (requestHref != null)
+			if (requestHref != null) {
+				logger.info("Checking HREF");
 				if (!isURLCorrectlyFormatted(requestHrefForValidation))
 					return false;
+			}
 
 			if (responseHref != null)
 				if (!isURLCorrectlyFormatted(responseHrefForValidation))
@@ -185,6 +217,9 @@ public class Links {
 	}
 
 	public class LastPageLink extends HrefLinks {
+	}
+
+	public class PreviousPageLink extends HrefLinks {
 	}
 
 	public class NextPageLink extends HrefLinks {
