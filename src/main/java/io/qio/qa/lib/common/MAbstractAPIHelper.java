@@ -353,24 +353,20 @@ public class MAbstractAPIHelper {
                 String collectionItemList = embArr.toJSONString();
 
 				Links pageLinks = new Links();
+				JSONObject linksObj = null;
+				linksObj = (JSONObject) json.get("_links");
 
-				JSONObject pageLinksObj = null;
-				pageLinksObj = (JSONObject) json.get("_links");
-
-				if (pageLinksObj != null) {
+				if (linksObj != null) {
 					//try {
 					JSONObject lastPageLinkObj = null;
 					JSONObject firstPageLinkObj = null;
 					JSONObject previousPageLinkObj = null;
 					JSONObject nextPageLinkObj = null;
 
-					lastPageLinkObj = (JSONObject) pageLinksObj.get("lastPage");
-					firstPageLinkObj = (JSONObject) pageLinksObj.get("firstPage");
-					previousPageLinkObj = (JSONObject) pageLinksObj.get("previousPage");
-					nextPageLinkObj = (JSONObject) pageLinksObj.get("nextPage");
-
-					//Page pg = new Page((Long) json.get("size"), (Long) json.get("totalElements"), (Long) json.get("totalPages"), (Long) json.get("number"), (Long) json.get("numberOfElements"), (Boolean) json.get("last"), (Boolean) json.get("first"), null);
-					//pageForInputRequest = pg;
+					lastPageLinkObj = (JSONObject) linksObj.get("lastPage");
+					firstPageLinkObj = (JSONObject) linksObj.get("firstPage");
+					previousPageLinkObj = (JSONObject) linksObj.get("previousPage");
+					nextPageLinkObj = (JSONObject) linksObj.get("nextPage");
 
 					if (lastPageLinkObj != null) {
 						Links.LastPageLink lastPage = pageLinks.new LastPageLink();
@@ -409,9 +405,11 @@ public class MAbstractAPIHelper {
 					}
 				}
 
-				Page pg = new Page((Long) json.get("size"), (Long) json.get("totalElements"), (Long) json.get("totalPages"), (Long) json.get("number"), (Long) json.get("numberOfElements"), (Boolean) json.get("last"), (Boolean) json.get("first"), pageLinks);
-				//pg.set_links(pageLinks);
+				linksForInputRequest = pageLinks;
+
+				Page pg = new Page((Long) json.get("size"), (Long) json.get("totalElements"), (Long) json.get("totalPages"), (Long) json.get("number"), (Long) json.get("numberOfElements"), (Boolean) json.get("last"), (Boolean) json.get("first"));
 				pageForInputRequest = pg;
+
 				/*} catch (RuntimeException e) {
 					e.printStackTrace();
 				}*/

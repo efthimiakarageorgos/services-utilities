@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import java.lang.reflect.Field;
 
 public class Links {
+	//Style 1 page links
 	@JsonProperty("firstPage")
 	private FirstPageLink firstPage;
 
@@ -19,8 +20,21 @@ public class Links {
 	@JsonProperty("nextPage")
 	private NextPageLink nextPage;
 
-	@JsonProperty("previous")
+	@JsonProperty("previousPage")
 	private PreviousPageLink previousPage;
+
+	//Style 2 page links
+	@JsonProperty("first")
+	private FirstPageLink first;
+
+	@JsonProperty("last")
+	private LastPageLink last;
+
+	@JsonProperty("next")
+	private NextPageLink next;
+
+	@JsonProperty("previous")
+	private PreviousPageLink previous;
 
 	@JsonProperty("profile")
 	private ProfileLink profileLink;
@@ -28,16 +42,19 @@ public class Links {
 	@JsonProperty("self")
 	private SelfLink selfLink;
 
-	public Links() {
-	}
+	public Links () {}
 
-	public Links(FirstPageLink firstPage, LastPageLink lastPage, NextPageLink nextPage, PreviousPageLink previousPage, ProfileLink profileLink, SelfLink self) {
+	public Links(FirstPageLink firstPage, LastPageLink lastPage, NextPageLink nextPage, PreviousPageLink previousPage, FirstPageLink first, LastPageLink last, NextPageLink next, PreviousPageLink previous, ProfileLink profileLink, SelfLink selfLink) {
 		this.firstPage = firstPage;
 		this.lastPage = lastPage;
 		this.nextPage = nextPage;
 		this.previousPage = previousPage;
+		this.first = first;
+		this.last = last;
+		this.next = next;
+		this.previous = previous;
 		this.profileLink = profileLink;
-		this.selfLink = self;
+		this.selfLink = selfLink;
 	}
 
 	public FirstPageLink getFirstPage() {
@@ -70,6 +87,38 @@ public class Links {
 
 	public void setPreviousPage(PreviousPageLink previousPage) {
 		this.previousPage = previousPage;
+	}
+
+	public FirstPageLink getFirst() {
+		return first;
+	}
+
+	public void setFirst(FirstPageLink first) {
+		this.first = first;
+	}
+
+	public LastPageLink getLast() {
+		return last;
+	}
+
+	public void setLast(LastPageLink last) {
+		this.last = last;
+	}
+
+	public NextPageLink getNext() {
+		return next;
+	}
+
+	public void setNext(NextPageLink next) {
+		this.next = next;
+	}
+
+	public PreviousPageLink getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(PreviousPageLink previous) {
+		this.previous = previous;
 	}
 
 	public SelfLink getSelfLink() {

@@ -15,12 +15,12 @@ public class Page {
 
 	private Boolean last;
 	private Boolean first;
-	private Links _links;
+	//private Links _links;
 
 	public Page() {
 	}
 
-	public Page(Long size, Long totalElements, Long totalPages, Long number, Long numberOfElements, Boolean last, Boolean first, Links _links) {
+	public Page(Long size, Long totalElements, Long totalPages, Long number, Long numberOfElements, Boolean last, Boolean first) {
 		this.size = size;
 		this.totalElements = totalElements;
 		this.totalPages = totalPages;
@@ -28,7 +28,7 @@ public class Page {
 		this.numberOfElements = numberOfElements;
 		this.last = last;
 		this.first = first;
-		this._links = _links;
+		//this._links = _links;
 	}
 
 	public Long getSize() {
@@ -85,13 +85,5 @@ public class Page {
 
 	public void setFirst(Boolean first) {
 		this.first = first;
-	}
-
-	public Links get_links() {
-		return _links;
-	}
-
-	public void set_links(Links _links) {
-		this._links = _links;
 	}
 }
