@@ -4,46 +4,71 @@
  */
 package io.qio.qa.lib.common.model;
 
+import io.qio.qa.lib.common.Links;
+
 public class Page {
-	private int size;
-	private int totalElements;
-	private int totalPages;
-	private int number;
+	private Long size;
+	private Long totalElements;
+	private Long totalPages;
+	private Long number;
+	private Long numberOfElements;
 
 	private Boolean last;
 	private Boolean first;
-	private int numberOfElements;
+	private Links _links;
 
-	public int getSize() {
+	public Page() {
+	}
+
+	public Page(Long size, Long totalElements, Long totalPages, Long number, Long numberOfElements, Boolean last, Boolean first, Links _links) {
+		this.size = size;
+		this.totalElements = totalElements;
+		this.totalPages = totalPages;
+		this.number = number;
+		this.numberOfElements = numberOfElements;
+		this.last = last;
+		this.first = first;
+		this._links = _links;
+	}
+
+	public Long getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(Long size) {
 		this.size = size;
 	}
 
-	public int getTotalElements() {
+	public Long getTotalElements() {
 		return totalElements;
 	}
 
-	public void setTotalElements(int totalElements) {
+	public void setTotalElements(Long totalElements) {
 		this.totalElements = totalElements;
 	}
 
-	public int getTotalPages() {
+	public Long getTotalPages() {
 		return totalPages;
 	}
 
-	public void setTotalPages(int totalPages) {
+	public void setTotalPages(Long totalPages) {
 		this.totalPages = totalPages;
 	}
 
-	public int getNumber() {
+	public Long getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Long number) {
 		this.number = number;
+	}
+
+	public Long getNumberOfElements() {
+		return numberOfElements;
+	}
+
+	public void setNumberOfElements(Long numberOfElements) {
+		this.numberOfElements = numberOfElements;
 	}
 
 	public Boolean getLast() {
@@ -62,11 +87,11 @@ public class Page {
 		this.first = first;
 	}
 
-	public int getNumberOfElements() {
-		return numberOfElements;
+	public Links get_links() {
+		return _links;
 	}
 
-	public void setNumberOfElements(int numberOfElements) {
-		this.numberOfElements = numberOfElements;
+	public void set_links(Links _links) {
+		this._links = _links;
 	}
 }
