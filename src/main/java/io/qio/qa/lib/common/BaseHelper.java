@@ -43,7 +43,9 @@ public class BaseHelper {
 	private static void configureMapperObject() {
 		mapper = new ObjectMapper();
 		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		//mapper.configure(DeserializationConfig.Feature.AUTO_DETECT_CREATORS, true);
+		//mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		mapper.setSerializationInclusion(Inclusion.ALWAYS);
 	}
 
 	/**
