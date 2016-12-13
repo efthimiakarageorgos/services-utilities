@@ -4,11 +4,9 @@
  */
 package io.qio.qa.lib.mongoHelpers;
 
+import com.mongodb.*;
 import io.qio.qa.lib.common.BaseHelper;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -23,6 +21,32 @@ import java.util.ArrayList;
 public class MAbstractMongoHelper
 {
     final static Logger logger = Logger.getRootLogger();
+
+    public static Object findOneCollectionItemInMongoDBCollection(Document query, String URI, String mongoDb, String collectionName) {
+        try {
+            MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
+            MongoDatabase database = mongoClient.getDatabase(mongoDb);
+
+            MongoCollection collection = database.getCollection(collectionName);
+
+//            DBCursor cursor = collection.find(query);
+//            while(cursor.hasNext()) {
+//                System.out.println(cursor.next());
+//            }
+            if (collection.count(query) == 0) {
+                mongoClient.close();
+                return null;
+            } else {
+                Object collectionItem = collection.find(query).first();
+                logger.info(collectionItem.toString());
+                mongoClient.close();
+                return collectionItem;
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static void addObjectToMongoDbCollection(Object requestObject, String URI, String mongoDb, String collectionName) {
         try {
@@ -42,7 +66,7 @@ public class MAbstractMongoHelper
 
     public static void addDocumentToMongoDbCollection(Document doc, String URI, String mongoDb, String collectionName) {
         //example of how to populate a document
-        Document person = new Document("date", "02-JUN-2018")
+        /*Document person = new Document("date", "02-JUN-2018")
                 .append("time", "11:02")
                 .append("vesselId", "5820870be4b082f136653eeee")
                 .append("voyageNumberOnDate", 6)
@@ -72,7 +96,7 @@ public class MAbstractMongoHelper
                 .append("latitude", 37.4224764)
                 .append("longitude", -122.0842499);
 
-        //logger.info(person.toJson().toString());
+        logger.info(person.toJson().toString()); */
 
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
@@ -86,7 +110,7 @@ public class MAbstractMongoHelper
         }
     }
 
-    public static void deleteCollectionItemsFromMongoDbCollectionBasedOnElementValue(ArrayList<String> elementValueList, String URI, String mongoDb, String collectionName, String elementName) { //objectList is a list of vesselId to be deleted
+    public static void deleteCollectionItemsFromMongoDbCollectionBasedOnElementValue(ArrayList<String> elementValueList, String URI, String mongoDb, String collectionName, String elementName) {
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI(URI));
             MongoDatabase database = mongoClient.getDatabase(mongoDb);
