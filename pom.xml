@@ -134,4 +134,16 @@
       <url>http://repo.maven.apache.org/maven2/</url>
     </repository>
   </repositories>
+    <distributionManagement>
+    <repository>
+      <id>qiotec-main</id>
+      <name>usnc1a-dcis01.qiotec.internal-releases</name>
+      <url>http://usnc1a-dcis01.qiotec.internal:8081/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>qiotec-main</id>
+      <name>usnc1a-dcis01.qiotec.internal-snapshots</name>
+      <url>http://usnc1a-dcis01.qiotec.internal:8081/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
