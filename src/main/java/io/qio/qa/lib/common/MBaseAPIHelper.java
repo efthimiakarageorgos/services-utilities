@@ -39,7 +39,12 @@ public class MBaseAPIHelper {
 		initConManager();
 		return conManager.get(getURI(microservice, environment, endpoint), apiRequestHeaders);
 	}
-	
+
+	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
+		initConManager();
+		return conManager.get(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
+	}
+
 	public void authenticateUsingOauth(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
 		initConManager();
 		conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
