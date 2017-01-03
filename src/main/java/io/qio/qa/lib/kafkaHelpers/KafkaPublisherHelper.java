@@ -9,14 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class KafkaPublisherHelper {
     public void publishMessagesContainedInFile(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -113,7 +112,7 @@ public class KafkaPublisherHelper {
     }
 
 
-    public void publishJSONMessages(String[] args, JSONArray JsonArray) throws IOException, ExecutionException, InterruptedException {
+    public void publishJSONMessages(String[] args, ArrayList<JSONObject> JSONObjectsToBePublished) throws IOException, ExecutionException, InterruptedException {
         OptionParser parser = new OptionParser();
 
         parser.acceptsAll(Lists.newArrayList("s", "servers"), "kafka servers").withRequiredArg().ofType(String.class);
@@ -135,57 +134,30 @@ public class KafkaPublisherHelper {
             System.exit(-1);
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter objectWriter = objectMapper.writer();
+        if (JSONObjectsToBePublished.isEmpty()) {
+            parser.printHelpOn(System.out);
+            System.out.println("\nJSON object list is empty");
+            System.exit(-1);
+        }
 
         String topic = (String) options.valueOf("topic");
 
         QioKafkaPublisher publisher = new QioKafkaPublisher((String) options.valueOf("servers"));
         try {
-            Iterator<JsonNode> objects = JsonArray.iterator();
-            while (objects.hasNext()) {
-                JsonNode object = objects.next();
-                if (!object.isObject()) {
-                    System.out.println("JSON Array doesn't contain an array of objects");
-                    System.exit(-1);
-                }
-
-                if (!object.has("key")) {
+            for (JSONObject ObjectForPublish : JSONObjectsToBePublished) {
+                if (ObjectForPublish.get("key") == null) {
                     System.out.println("object is missing the field 'key'");
                     System.exit(-1);
                 }
 
-                if (!object.get("key").isTextual()) {
-                    System.out.println("key is not a string");
-                    System.exit(-1);
-                }
-
-                if (!object.has("message")) {
+                if (ObjectForPublish.get("message") == null) {
                     System.out.println("object is missing the field 'message'");
                     System.exit(-1);
                 }
 
-                JsonNode message = object.get("message");
+                publisher.publish(topic, ObjectForPublish.get("key").toString(), ObjectForPublish.get("message").toString());
 
-                if (!message.isObject() && !message.isTextual()) {
-                    System.out.println("message is not a JSON object or a string");
-                    System.exit(-1);
-                }
-
-                String key = object.get("key").asText();
-                String payload;
-
-                if (message.isObject()) {
-                    payload = objectWriter.writeValueAsString(message);
-                } else if (message.isTextual()) {
-                    payload = message.asText();
-                } else {
-                    throw new RuntimeException("message is wrong type");
-                }
-
-                publisher.publish(topic, key, payload);
-
-                System.out.println("Wrote " + payload);
+                System.out.println("Wrote key " + ObjectForPublish.get("message").toString() + " and message " + ObjectForPublish.get("message").toString());
             }
         } finally {
             publisher.close();
