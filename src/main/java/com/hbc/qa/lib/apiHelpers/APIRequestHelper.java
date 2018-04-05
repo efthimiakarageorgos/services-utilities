@@ -14,8 +14,7 @@ public class APIRequestHelper {
 	private String oauthMicroservice;
 	private Boolean fetchNewAccessToken;
 
-	// By default, a new Access Token will be fetched whenever a new object for
-	// APIHeaders gets instantiated.
+	// By default, a new Access Token will be fetched whenever a new object for APIHeaders gets instantiated.
 	public APIRequestHelper(String acceptType, String contentType, String userName, String password, String grant_type, String scope,
 			String oauthMicroservice) {
 		this.acceptType = acceptType;
