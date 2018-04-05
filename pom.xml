@@ -1,20 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>io.qio.qa.lib</groupId>
+  <groupId>com.hbc.qa.lib</groupId>
   <artifactId>api-test-util</artifactId>
-  <version>1.0.151</version>
+  <version>1.0.172</version>
   <packaging>jar</packaging>
+
 
   <name>api-test-util</name>
   <url>http://maven.apache.org</url>
-
-    <parent>
-		<groupId>com.qiotec.devops</groupId>
-		<artifactId>qio-spring-boot-starter-parent</artifactId>
-		<version>0.2.4-SNAPSHOT</version>
-	</parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -119,7 +113,7 @@
             <includePublishedArtifacts>true</includePublishedArtifacts>
             <runChecks>true</runChecks>
             <scopes>runtime</scopes>
-            <violationRecipients>kanchan.ghosh@qio.io</violationRecipients>
+            <violationRecipients>effie.karageorgos@hbc.com</violationRecipients>
           </licenses>
         </configuration>
       </plugin>
@@ -129,12 +123,12 @@
         <artifactId>license-maven-plugin</artifactId>
         <version>2.3</version>
         <configuration>
-          <header>QIO_License.txt</header>
+          <header>HBC_License.txt</header>
           <aggregate>true</aggregate>
           <properties>
-            <owner>QIO Techonologies</owner>
-            <email>admin@qio.io</email>
-            <project.inceptionYear>2016</project.inceptionYear>
+            <owner>HBC Enterprise Services</owner>
+            <email>admin@hbc.com</email>
+            <project.inceptionYear>2018</project.inceptionYear>
           </properties>
           <includes>
             <include>**/*.java</include>
