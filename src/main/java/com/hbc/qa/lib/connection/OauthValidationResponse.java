@@ -1,6 +1,6 @@
 /**
- * © Qio Technologies Ltd. 2016. All rights reserved.
- * CONFIDENTIAL AND PROPRIETARY INFORMATION OF QIO TECHNOLOGIES LTD.
+ * © HBC Shared Services QA 2018. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF HBC.
  */
 package com.hbc.qa.lib.connection;
 

@@ -1,6 +1,6 @@
 /**
- * © Qio Technologies Ltd. 2016. All rights reserved.
- * CONFIDENTIAL AND PROPRIETARY INFORMATION OF QIO TECHNOLOGIES LTD.
+ * © HBC Shared Services QA 2018. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF HBC.
  */
 package com.hbc.qa.lib.connection;
 
@@ -28,6 +28,7 @@ public class ConnectionManager {
 
 	private static ConnectionManager conManager = null;
 	private OauthValidationResponse oauthValidationResponse = null;
+	String basicAuthString = null;
 	final static Logger logger = Logger.getLogger(ConnectionManager.class);
 
 	// ensures that only one instance of this class exists at all time during
@@ -73,7 +74,8 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			logger.debug("Sending 'GET' request to URL : " + URI);
 
@@ -117,7 +119,8 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			// Add payload request
 			con.setDoOutput(true);
@@ -163,6 +166,7 @@ public class ConnectionManager {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
+			logger.info("SSSSSSSSSSS : " + payload);
 			url = new URL(URI);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
@@ -170,7 +174,8 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			// Send post request
 			con.setDoOutput(true);
@@ -178,6 +183,9 @@ public class ConnectionManager {
 			wr.writeBytes(payload);
 			wr.flush();
 			wr.close();
+
+			logger.info("Sending 'POST' request to URL : " + URI);
+			logger.info("Request payload : " + payload);
 
 			logger.debug("Sending 'POST' request to URL : " + URI);
 			logger.debug("Request payload : " + payload);
@@ -224,7 +232,9 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			// Send put request
 			con.setDoOutput(true);
@@ -282,7 +292,8 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			// Send patch request
 			con.setDoOutput(true);
@@ -335,7 +346,8 @@ public class ConnectionManager {
 			// add request header
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
-			con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
+			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
 			// Send delete request
 			con.setDoOutput(true);
@@ -351,6 +363,12 @@ public class ConnectionManager {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
 		}
+	}
+
+	public String initBasicAuthString(APIRequestHelper apiRequestHelper) {
+		basicAuthString = "Basic " + Base64.getEncoder().encodeToString((apiRequestHelper.getUserName()
+						+ ":" + apiRequestHelper.getPassword()).getBytes());
+		return basicAuthString;
 	}
 
 	public void initOauthAccessToken(String URI, APIRequestHelper apiRequestHelper) {

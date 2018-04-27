@@ -1,6 +1,6 @@
 /**
- * © Qio Technologies Ltd. 2016. All rights reserved.
- * CONFIDENTIAL AND PROPRIETARY INFORMATION OF QIO TECHNOLOGIES LTD.
+ * © HBC Shared Services QA 2018. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF HBC.
  */
 package com.hbc.qa.lib.common;
 
@@ -32,7 +32,7 @@ public class MAbstractAPIHelper {
 	public static <T> T getResponseObjForCreate(Object requestObject, String microservice, String environment, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[4];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
@@ -52,7 +52,7 @@ public class MAbstractAPIHelper {
 	public static <T> T getResponseObjForCreate(Object requestObject, String microservice, String environment, String collectionId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
@@ -72,7 +72,7 @@ public class MAbstractAPIHelper {
 
 	public static <T> T getResponseObjForUpdate(Object requestObject, String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
@@ -91,7 +91,7 @@ public class MAbstractAPIHelper {
 
 	public static <T> T getResponseObjForUpdate(Object requestObject, String microservice, String environment, String collectionId, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[6];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
@@ -110,7 +110,7 @@ public class MAbstractAPIHelper {
 
 	public static <T> void deleteRequestObj(String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 			Class[] methodArgs = new Class[4];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
 			methodArgs[3] = APIRequestHelper.class;
@@ -127,7 +127,7 @@ public class MAbstractAPIHelper {
 
 	public static <T> void deleteRequestObj(String microservice, String environment, String collectionId, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
 			methodArgs[4] = APIRequestHelper.class;
@@ -148,7 +148,7 @@ public class MAbstractAPIHelper {
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[4];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
@@ -168,7 +168,7 @@ public class MAbstractAPIHelper {
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, String subElementId, APIRequestHelper apiRequestHelper, Object apiHelperObj,
                                                   Class<T> classType) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
@@ -187,7 +187,7 @@ public class MAbstractAPIHelper {
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj,
                                                   Class<T> classType) {
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[6];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
@@ -206,7 +206,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieve 1");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[4];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
@@ -225,7 +225,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieve 2");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
@@ -244,7 +244,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieve 3");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[6];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
@@ -263,7 +263,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getListResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType, String page, String pageSize) {
 		logger.info("getListResponseObjForRetrieve 3 with page/pageSize args");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[8];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
@@ -283,7 +283,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getListResponseObjForRetrieveBySearch(String microservice, String environment, String searchBy, String searchValue, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieveBySearch 1");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[5];
 			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
@@ -304,7 +304,7 @@ public class MAbstractAPIHelper {
 	public static <T> List<T> getResponseObjForRetrieveAll(String microservice, String environment, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 		logger.info("getListResponseObjForRetrieveAll 1");
 		try {
-			initOauthAuthentication(environment, apiRequestHelper);
+			//initOauthAuthentication(environment, apiRequestHelper);
 
 			Class[] methodArgs = new Class[3];
 			methodArgs[0] = methodArgs[1] = String.class;
