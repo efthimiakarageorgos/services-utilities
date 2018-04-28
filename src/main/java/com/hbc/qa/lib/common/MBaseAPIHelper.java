@@ -61,7 +61,7 @@ public class MBaseAPIHelper {
 	}
 
 	private String getURI(String microservice, String environment, String endpoint) {
-		String URI = "https://" + microservice + environment + endpoint;
+		String URI = "http://" + microservice + environment + endpoint;
 		return URI;
 	}
 }

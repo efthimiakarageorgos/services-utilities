@@ -177,21 +177,21 @@ public class ConnectionManager {
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
 			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
 
+			logger.info("FFFFFFFFFFF "+ initBasicAuthString(apiRequestHelper));
 			// Send post request
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			logger.info("FFFFFFFFFFFZZZ ");
 			wr.writeBytes(payload);
 			wr.flush();
 			wr.close();
 
+			logger.info("FFFFFFFFFFFZZZ ");
 			logger.info("Sending 'POST' request to URL : " + URI);
 			logger.info("Request payload : " + payload);
 
-			logger.debug("Sending 'POST' request to URL : " + URI);
-			logger.debug("Request payload : " + payload);
-
 			int responseCode = con.getResponseCode();
-			logger.debug("Response code : " + responseCode);
+			logger.info("Response code : " + responseCode);
 			conResp.setRespCode(responseCode);
 
 			BufferedReader in;
@@ -366,6 +366,7 @@ public class ConnectionManager {
 	}
 
 	public String initBasicAuthString(APIRequestHelper apiRequestHelper) {
+		logger.info("ggggg");
 		basicAuthString = "Basic " + Base64.getEncoder().encodeToString((apiRequestHelper.getUserName()
 						+ ":" + apiRequestHelper.getPassword()).getBytes());
 		return basicAuthString;
