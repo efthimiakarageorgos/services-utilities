@@ -62,6 +62,15 @@ public class CustomAssertions {
 		assertEquals(expectedRespCode, actualRespCode);
 	}
 
+	public static void assertBodyResponseCodeAndMessage(String expectedRespCode, String expectedRespMsg, Object responseObj) {
+		logger.info("In assertBodyResponseCodeAndMessage");
+		try {
+			assertEquals(expectedRespCode, responseObj.getClass().getField("responseCode"));
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void assertRequestAndResponseObjForNullEqualityCheck(Object requestObj, Object responseObj) {
 		assertEquals(requestObj, responseObj);
 	}
