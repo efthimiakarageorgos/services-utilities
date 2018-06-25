@@ -185,7 +185,6 @@ public class ConnectionManager {
 			// Send post request
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-			logger.info("FFFFFFFFFFFZZZ ");
 			wr.writeBytes(payload);
 			wr.flush();
 			wr.close();
