@@ -1,6 +1,6 @@
 /**
- * © HBC Shared Services QA 2018. All rights reserved.
- * CONFIDENTIAL AND PROPRIETARY INFORMATION OF HBC.
+ * © TheCompany QA 2019. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF TheCompany.
  */
 package com.hbc.qa.lib.jira.apiHelpers;
 
