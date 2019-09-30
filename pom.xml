@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.hbc.qa.lib</groupId>
-  <artifactId>api-test-util</artifactId>
+  <groupId>com.thecompany.qa.lib</groupId>
+  <artifactId>services-utilities</artifactId>
   <version>1.0.174</version>
   <packaging>jar</packaging>
 
 
-  <name>api-test-util</name>
+  <name>services-utilities</name>
   <url>http://maven.apache.org</url>
 
   <properties>
