@@ -5,6 +5,7 @@
 package com.thecompany.qa.lib.assertions;
 
 import com.thecompany.qa.lib.exception.ServerResponse;
+import com.thecompany.qa.lib.idm.apiHelpers.MOauthAPIHelper;
 import com.thecompany.qa.lib.exception.ExceptionStyle2Response;
 import com.thecompany.qa.lib.exception.ExceptionStyle2ResponseError;
 import static org.junit.Assert.*;
