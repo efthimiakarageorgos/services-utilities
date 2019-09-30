@@ -113,7 +113,7 @@
             <includePublishedArtifacts>true</includePublishedArtifacts>
             <runChecks>true</runChecks>
             <scopes>runtime</scopes>
-            <violationRecipients>effie.karageorgos@hbc.com</violationRecipients>
+            <violationRecipients>effie.karageorgos@thecompany.com</violationRecipients>
           </licenses>
         </configuration>
       </plugin>
@@ -123,11 +123,11 @@
         <artifactId>license-maven-plugin</artifactId>
         <version>2.3</version>
         <configuration>
-          <header>HBC_License.txt</header>
+          <header>TheCompany_License.txt</header>
           <aggregate>true</aggregate>
           <properties>
-            <owner>HBC Enterprise Services</owner>
-            <email>admin@hbc.com</email>
+            <owner>The Company Enterprise Services</owner>
+            <email>admin@thecompany.com</email>
             <project.inceptionYear>2018</project.inceptionYear>
           </properties>
           <includes>
