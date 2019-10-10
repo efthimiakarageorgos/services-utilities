@@ -1,2 +1,2 @@
-def object = new org.qiotec.jenkins2.pipeline()
-object.api_test_util("http://usnc1a-dgit01.qiotec.internal/QA/api-test-util.git")
+def object = new org.thecompany.jenkins.pipeline()
+object.services_utilities("https://github.com/efthimiakarageorgos/services-utilities.git")
