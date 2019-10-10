@@ -50,6 +50,25 @@ public class MAbstractAPIHelper {
 		}
 	}
 
+	public static String getJSONResponseForCreateWithJSONPayload(String payload, String microservice, String environment, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[4];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
+			methodArgs[3] = APIRequestHelper.class;
+			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
+
+			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, payload, apiRequestHelper);
+			responseCodeForInputRequest = conRespPost.getRespCode();
+			return conRespPost.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> T getResponseObjForCreate(Object requestObject, String microservice, String environment, String collectionId, APIRequestHelper apiRequestHelper, Object apiHelperObj, Class<T> classType) {
 
 		try {
@@ -66,6 +85,25 @@ public class MAbstractAPIHelper {
 			responseCodeForInputRequest = conRespPost.getRespCode();
 			return (T) BaseHelper.toClassObject(conRespPost.getRespBody(), classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String getJSONResponseForCreateWithJSONPayload(String payload, String microservice, String environment, String collectionId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[5];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
+			methodArgs[4] = APIRequestHelper.class;
+
+			Method createMethod = apiHelperObj.getClass().getMethod("create", methodArgs);
+
+			ConnectionResponse conRespPost = (ConnectionResponse) createMethod.invoke(apiHelperObj, microservice, environment, collectionId, payload, apiRequestHelper);
+			responseCodeForInputRequest = conRespPost.getRespCode();
+			return conRespPost.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -166,6 +204,25 @@ public class MAbstractAPIHelper {
 
 	}
 
+	public static String getJSONResponseForRetrieve(String microservice, String environment, String elementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[4];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = String.class;
+			methodArgs[3] = APIRequestHelper.class;
+			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, apiRequestHelper);
+			responseCodeForInputRequest = conRespGet.getRespCode();
+			return conRespGet.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, String subElementId, APIRequestHelper apiRequestHelper, Object apiHelperObj,
                                                   Class<T> classType) {
 		try {
@@ -185,6 +242,24 @@ public class MAbstractAPIHelper {
 		}
 	}
 
+	public static String getJSONResponseForRetrieve(String microservice, String environment, String elementId, String subElementId, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[5];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = String.class;
+			methodArgs[4] = APIRequestHelper.class;
+			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, subElementId, apiRequestHelper);
+			responseCodeForInputRequest = conRespGet.getRespCode();
+			return conRespGet.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> T getResponseObjForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj,
                                                   Class<T> classType) {
 		try {
@@ -199,6 +274,24 @@ public class MAbstractAPIHelper {
 			responseCodeForInputRequest = conRespGet.getRespCode();
 			return (T) BaseHelper.toClassObject(conRespGet.getRespBody(), classType);
 		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String getJSONResponseForRetrieve(String microservice, String environment, String elementId, String firstArg, String secondArg, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[6];
+			methodArgs[0] = methodArgs[1] = methodArgs[2] = methodArgs[3] = methodArgs[4] = String.class;
+			methodArgs[5] = APIRequestHelper.class;
+			Method retrieveMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveMethod.invoke(apiHelperObj, microservice, environment, elementId, firstArg, secondArg, apiRequestHelper);
+			responseCodeForInputRequest = conRespGet.getRespCode();
+			return conRespGet.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
 		}
