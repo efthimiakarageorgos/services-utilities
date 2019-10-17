@@ -15,7 +15,6 @@ public class MBaseAPIHelper {
 
 	public ConnectionResponse create(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
 		initConManager();
-		logger.info(getURI(microservice, environment, endpoint) + "    xxxx");
 		return conManager.post(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 

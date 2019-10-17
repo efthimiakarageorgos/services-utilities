@@ -414,6 +414,25 @@ public class MAbstractAPIHelper {
 		}
 	}
 
+	public static String getJSONResponseForRetrieveAll(String microservice, String environment, APIRequestHelper apiRequestHelper, Object apiHelperObj) {
+		logger.info("getListResponseObjForRetrieveAll 11111111");
+		try {
+			//initOauthAuthentication(environment, apiRequestHelper);
+
+			Class[] methodArgs = new Class[3];
+			methodArgs[0] = methodArgs[1] = String.class;
+			methodArgs[2] = APIRequestHelper.class;
+			Method retrieveAllMethod = apiHelperObj.getClass().getMethod("retrieve", methodArgs);
+
+			ConnectionResponse conRespGet = (ConnectionResponse) retrieveAllMethod.invoke(apiHelperObj, microservice, environment, apiRequestHelper);
+
+			return conRespGet.getRespBody();
+		} catch (RuntimeException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static <T> List<T> formListResponseBasedOnResponseFormat(ConnectionResponse conRespGet, Class<T> classType) throws IOException, ParseException {
 		responseCodeForInputRequest = conRespGet.getRespCode();
 		String responseBody = conRespGet.getRespBody();

@@ -166,14 +166,11 @@ public class ConnectionManager {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
-			logger.info("SSSSSXXXXSSSSSS : " + payload);
-			logger.info("SSSSSXXXXSSSSSS : " + URI);
 			url = new URL(URI);
-			logger.info("FFFFFFFFFFF "+ initBasicAuthString(apiRequestHelper));
+			logger.info("initBasicAuthString "+ initBasicAuthString(apiRequestHelper));
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-			logger.info("DDDDDDDDDD ");
 			con.setRequestMethod("POST");
 
 			// add request header
@@ -189,7 +186,6 @@ public class ConnectionManager {
 			wr.flush();
 			wr.close();
 
-			logger.info("FFFFFFFFFFFZZZ ");
 			logger.info("Sending 'POST' request to URL : " + URI);
 			logger.info("Request payload : " + payload);
 

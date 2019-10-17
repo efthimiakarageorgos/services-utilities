@@ -20,7 +20,7 @@
       <artifactId>hamcrest-core</artifactId>
       <version>1.3</version>
     </dependency>
-    <dependency>
+      <dependency>
       <groupId>com.jcraft</groupId>
       <artifactId>jsch</artifactId>
       <version>0.1.53</version>
@@ -124,7 +124,7 @@
         <version>2.3</version>
         <configuration>
           <header>TheCompany_License.txt</header>
-          <aggregate>true</aggregate>
+          <aggregate>false</aggregate>
           <properties>
             <owner>The Company Enterprise Services</owner>
             <email>admin@thecompany.com</email>
