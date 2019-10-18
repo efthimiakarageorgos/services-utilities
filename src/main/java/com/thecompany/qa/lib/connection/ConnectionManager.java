@@ -29,7 +29,6 @@ public class ConnectionManager {
 
 	private static ConnectionManager conManager = null;
 	private static BasicAuthentication basicAuthentication;
-	private static OauthAuthentication oauthAuthentication;
 
 	private OauthValidationResponse oauthValidationResponse = null;
 	String basicAuthString = null;
