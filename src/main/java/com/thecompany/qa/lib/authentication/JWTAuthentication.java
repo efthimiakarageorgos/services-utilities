@@ -1,3 +1,7 @@
+/**
+ * © TheCompany QA 2019. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF TheCompany.
+ */
 package com.thecompany.qa.lib.authentication;
 
 import javax.crypto.spec.SecretKeySpec;
