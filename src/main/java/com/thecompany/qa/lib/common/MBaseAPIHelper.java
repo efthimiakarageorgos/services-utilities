@@ -5,12 +5,15 @@
 package com.thecompany.qa.lib.common;
 
 import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
+import com.thecompany.qa.lib.authentication.OauthAuthentication;
 import com.thecompany.qa.lib.connection.ConnectionManager;
 import com.thecompany.qa.lib.connection.ConnectionResponse;
 import org.apache.log4j.Logger;
 
 public class MBaseAPIHelper {
 	ConnectionManager conManager = null;
+	private static OauthAuthentication oauthAuthentication;
+
 	final static Logger logger = Logger.getRootLogger();
 
 	public ConnectionResponse create(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
@@ -47,12 +50,17 @@ public class MBaseAPIHelper {
 
 	public void authenticateUsingOauth(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
 		initConManager();
-		conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
+		oauthAuthentication = new OauthAuthentication();
+		//conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
+		oauthAuthentication.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
 	}
 
 	public void authenticateUsingBasicAuth(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
 		initConManager();
-		conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
+		oauthAuthentication = new OauthAuthentication();
+		//conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
+		oauthAuthentication.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
+		// THIS DOES NOT LOOK RIGHT - Why OAuth since method is for Basic?
 	}
 
 	private void initConManager(){

@@ -6,6 +6,7 @@ package com.thecompany.qa.lib.connection;
 
 import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
 import com.thecompany.qa.lib.common.BaseHelper;
+import com.thecompany.qa.lib.authentication.*;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.log4j.Logger;
@@ -27,6 +28,9 @@ import java.lang.reflect.Modifier;
 public class ConnectionManager {
 
 	private static ConnectionManager conManager = null;
+	private static BasicAuthentication basicAuthentication;
+	private static OauthAuthentication oauthAuthentication;
+
 	private OauthValidationResponse oauthValidationResponse = null;
 	String basicAuthString = null;
 	final static Logger logger = Logger.getLogger(ConnectionManager.class);
@@ -64,6 +68,7 @@ public class ConnectionManager {
 	}
 
 	public ConnectionResponse get(String URI, APIRequestHelper apiRequestHelper) {
+		basicAuthentication = new BasicAuthentication();
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
@@ -75,7 +80,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			logger.debug("Sending 'GET' request to URL : " + URI);
 
@@ -120,7 +125,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			// Add payload request
 			con.setDoOutput(true);
@@ -167,7 +172,7 @@ public class ConnectionManager {
 		URL url;
 		try {
 			url = new URL(URI);
-			logger.info("initBasicAuthString "+ initBasicAuthString(apiRequestHelper));
+			logger.info("initBasicAuthString "+ basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -177,7 +182,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			// Send post request
 			con.setDoOutput(true);
@@ -233,7 +238,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
 
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			// Send put request
 			con.setDoOutput(true);
@@ -292,7 +297,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			// Send patch request
 			con.setDoOutput(true);
@@ -346,7 +351,7 @@ public class ConnectionManager {
 			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
 			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
 
 			// Send delete request
 			con.setDoOutput(true);
@@ -364,13 +369,14 @@ public class ConnectionManager {
 		}
 	}
 
+	/*
 	public String initBasicAuthString(APIRequestHelper apiRequestHelper) {
-		logger.info("ggggg");
 		basicAuthString = "Basic " + Base64.getEncoder().encodeToString((apiRequestHelper.getUserName()
 						+ ":" + apiRequestHelper.getPassword()).getBytes());
 		return basicAuthString;
-	}
+	} */
 
+/*
 	public void initOauthAccessToken(String URI, APIRequestHelper apiRequestHelper) {
 		/*
 		 * Fetching new access token under the following scenarios: 1. if this is the first time we are going to fetch the access token. 2. if a new
@@ -380,6 +386,7 @@ public class ConnectionManager {
 		 * TODO: Include the condition for expiry of the access token, although at present its set to 130min, but just in case its reduced and our
 		 * tests take longer to run then there can be a problem.
 		 */
+/*
 		try {
 			if (oauthValidationResponse == null || apiRequestHelper.getFetchNewAccessToken()) {
 				Config applicationUserConfig = ConfigFactory.load("application_user_creds.conf");
@@ -463,5 +470,5 @@ public class ConnectionManager {
 			logger.error(e.getMessage());
 		}
 		return conResp;
-	}
+	} */
 }
