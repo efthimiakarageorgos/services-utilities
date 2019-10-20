@@ -1,4 +1,4 @@
-/**
+﻿/**
  * © TheCompany QA 2019. All rights reserved.
  * CONFIDENTIAL AND PROPRIETARY INFORMATION OF TheCompany.
  */
@@ -16,3 +16,4 @@ public class BasicAuthentication {
         return basicAuthString;
     }
 }
+
