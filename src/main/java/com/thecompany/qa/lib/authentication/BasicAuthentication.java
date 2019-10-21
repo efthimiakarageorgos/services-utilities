@@ -16,4 +16,3 @@ public class BasicAuthentication {
         return basicAuthString;
     }
 }
-
