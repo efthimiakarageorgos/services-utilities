@@ -4,7 +4,7 @@
  */
 package com.thecompany.qa.lib.apiHelpers;
 
-public class APIRequestHelper {
+public class APIHeaderRequestHelper {
 	private String acceptType;
 	private String contentType;
 	private String userName;
@@ -15,8 +15,8 @@ public class APIRequestHelper {
 	private Boolean fetchNewAccessToken;
 
 	// By default, a new Access Token will be fetched whenever a new object for APIHeaders gets instantiated.
-	public APIRequestHelper(String acceptType, String contentType, String userName, String password, String grant_type, String scope,
-			String oauthMicroservice) {
+	public APIHeaderRequestHelper(String acceptType, String contentType, String userName, String password, String grant_type, String scope,
+                                  String oauthMicroservice) {
 		this.acceptType = acceptType;
 		this.contentType = contentType;
 		this.userName = userName;
@@ -27,17 +27,17 @@ public class APIRequestHelper {
 		this.oauthMicroservice = oauthMicroservice;
 	}
 
-	public APIRequestHelper(String acceptType, String contentType, String userName, String password, String oauthMicroservice) {
+	public APIHeaderRequestHelper(String acceptType, String contentType, String userName, String password, String oauthMicroservice) {
 		this(acceptType, contentType, userName, password, "password", "openid,profile,token,email", oauthMicroservice);
 	}
 
-	public APIRequestHelper(String userName, String password, String oauthMicroservice) {
+	public APIHeaderRequestHelper(String userName, String password, String oauthMicroservice) {
 		this("application/json", "application/json", userName, password, oauthMicroservice);
 	}
 
-	public APIRequestHelper(APIRequestHelper apiRequestHelper) {
-		this(apiRequestHelper.getAcceptType(), apiRequestHelper.getContentType(), apiRequestHelper.getUserName(), apiRequestHelper.getPassword(),
-				apiRequestHelper.getGrant_type(), apiRequestHelper.getScope(), apiRequestHelper.getOauthMicroservice());
+	public APIHeaderRequestHelper(APIHeaderRequestHelper apiHeaderRequestHelper) {
+		this(apiHeaderRequestHelper.getAcceptType(), apiHeaderRequestHelper.getContentType(), apiHeaderRequestHelper.getUserName(), apiHeaderRequestHelper.getPassword(),
+				apiHeaderRequestHelper.getGrant_type(), apiHeaderRequestHelper.getScope(), apiHeaderRequestHelper.getOauthMicroservice());
 	}
 
 	public String getAcceptType() {

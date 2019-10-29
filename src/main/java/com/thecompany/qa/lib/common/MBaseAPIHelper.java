@@ -4,7 +4,7 @@
  */
 package com.thecompany.qa.lib.common;
 
-import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
+import com.thecompany.qa.lib.apiHelpers.APIHeaderRequestHelper;
 import com.thecompany.qa.lib.authentication.OauthAuthentication;
 import com.thecompany.qa.lib.connection.ConnectionManager;
 import com.thecompany.qa.lib.connection.ConnectionResponse;
@@ -16,46 +16,46 @@ public class MBaseAPIHelper {
 
 	final static Logger logger = Logger.getRootLogger();
 
-	public ConnectionResponse create(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
+	public ConnectionResponse create(String microservice, String environment, String endpoint, String payload, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		return conManager.post(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 
-	public void delete(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
+	public void delete(String microservice, String environment, String endpoint, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		conManager.delete(getURI(microservice, environment, endpoint), apiRequestHeaders);
 	}
 	
 	public ConnectionResponse update(String microservice, String environment, String endpoint, String payload,
-			APIRequestHelper apiRequestHeaders) {
+			APIHeaderRequestHelper apiRequestHeaders) {
 		initConManager();
 		return conManager.put(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 
 	public ConnectionResponse patch(String microservice, String environment, String endpoint, String payload,
-									 APIRequestHelper apiRequestHeaders) {
+									 APIHeaderRequestHelper apiRequestHeaders) {
 		initConManager();
 		return conManager.patch(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 
-	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
+	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		return conManager.get(getURI(microservice, environment, endpoint), apiRequestHeaders);
 	}
 
-	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, String payload, APIRequestHelper apiRequestHeaders){
+	public ConnectionResponse retrieve(String microservice, String environment, String endpoint, String payload, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		return conManager.get(getURI(microservice, environment, endpoint), payload, apiRequestHeaders);
 	}
 
-	public void authenticateUsingOauth(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
+	public void authenticateUsingOauth(String microservice, String environment, String endpoint, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		oauthAuthentication = new OauthAuthentication();
 		//conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
 		oauthAuthentication.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);
 	}
 
-	public void authenticateUsingBasicAuth(String microservice, String environment, String endpoint, APIRequestHelper apiRequestHeaders){
+	public void authenticateUsingBasicAuth(String microservice, String environment, String endpoint, APIHeaderRequestHelper apiRequestHeaders){
 		initConManager();
 		oauthAuthentication = new OauthAuthentication();
 		//conManager.initOauthAccessToken(getURI(microservice, environment, endpoint), apiRequestHeaders);

@@ -4,14 +4,9 @@
  */
 package com.thecompany.qa.lib.connection;
 
-import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
-import com.thecompany.qa.lib.common.BaseHelper;
-import com.thecompany.qa.lib.authentication.*;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import com.thecompany.qa.lib.apiHelpers.APIHeaderRequestHelper;
+import com.thecompany.qa.lib.authentication.BasicAuthentication;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,8 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -66,7 +59,7 @@ public class ConnectionManager {
 		return conManager;
 	}
 
-	public ConnectionResponse get(String URI, APIRequestHelper apiRequestHelper) {
+	public ConnectionResponse get(String URI, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		basicAuthentication = new BasicAuthentication();
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
@@ -76,10 +69,10 @@ public class ConnectionManager {
 			con.setRequestMethod("GET");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			logger.debug("Sending 'GET' request to URL : " + URI);
 
@@ -112,7 +105,7 @@ public class ConnectionManager {
 		return conResp;
 	}
 
-	public ConnectionResponse get(String URI, String payload, APIRequestHelper apiRequestHelper) {
+	public ConnectionResponse get(String URI, String payload, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
@@ -121,10 +114,10 @@ public class ConnectionManager {
 			con.setRequestMethod("GET");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			// Add payload request
 			con.setDoOutput(true);
@@ -166,22 +159,22 @@ public class ConnectionManager {
 	}
 
 
-	public ConnectionResponse post(String URI, String payload, APIRequestHelper apiRequestHelper) {
+	public ConnectionResponse post(String URI, String payload, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
 			url = new URL(URI);
-			logger.info("initBasicAuthString "+ basicAuthentication.initBasicAuthString(apiRequestHelper));
+			logger.info("initBasicAuthString "+ basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
 			con.setRequestMethod("POST");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			// Send post request
 			con.setDoOutput(true);
@@ -224,7 +217,7 @@ public class ConnectionManager {
 		return conResp;
 	}
 
-	public ConnectionResponse put(String URI, String payload, APIRequestHelper apiRequestHelper) {
+	public ConnectionResponse put(String URI, String payload, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
@@ -233,11 +226,11 @@ public class ConnectionManager {
 			con.setRequestMethod("PUT");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
 
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			// Send put request
 			con.setDoOutput(true);
@@ -279,7 +272,7 @@ public class ConnectionManager {
 		return conResp;
 	}
 
-	public ConnectionResponse patch(String URI, String payload, APIRequestHelper apiRequestHelper) {
+	public ConnectionResponse patch(String URI, String payload, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 
 		URL url;
@@ -293,10 +286,10 @@ public class ConnectionManager {
 //			con.setRequestMethod("POST");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			// Send patch request
 			con.setDoOutput(true);
@@ -338,7 +331,7 @@ public class ConnectionManager {
 		return conResp;
 	}
 
-	public void delete(String URI, APIRequestHelper apiRequestHelper) {
+	public void delete(String URI, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {
@@ -347,10 +340,10 @@ public class ConnectionManager {
 			con.setRequestMethod("DELETE");
 
 			// add request header
-			con.setRequestProperty("Accept", apiRequestHelper.getAcceptType());
-			con.setRequestProperty("Content-Type", apiRequestHelper.getContentType());
+			con.setRequestProperty("Accept", apiHeaderRequestHelper.getAcceptType());
+			con.setRequestProperty("Content-Type", apiHeaderRequestHelper.getContentType());
 			//con.setRequestProperty("Authorization", oauthValidationResponse.getToken_type() + " " + oauthValidationResponse.getAccess_token());
-			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiRequestHelper));
+			con.setRequestProperty("Authorization", basicAuthentication.initBasicAuthString(apiHeaderRequestHelper));
 
 			// Send delete request
 			con.setDoOutput(true);
@@ -369,14 +362,14 @@ public class ConnectionManager {
 	}
 
 	/*
-	public String initBasicAuthString(APIRequestHelper apiRequestHelper) {
+	public String initBasicAuthString(APIHeaderRequestHelper apiRequestHelper) {
 		basicAuthString = "Basic " + Base64.getEncoder().encodeToString((apiRequestHelper.getUserName()
 						+ ":" + apiRequestHelper.getPassword()).getBytes());
 		return basicAuthString;
 	} */
 
 /*
-	public void initOauthAccessToken(String URI, APIRequestHelper apiRequestHelper) {
+	public void initOauthAccessToken(String URI, APIHeaderRequestHelper apiRequestHelper) {
 		/*
 		 * Fetching new access token under the following scenarios: 1. if this is the first time we are going to fetch the access token. 2. if a new
 		 * object for APIHeaders has been instantiated, or its user/password has been changed(upon which the flag fetchNewAccessToken will be set to
@@ -409,7 +402,7 @@ public class ConnectionManager {
 		}
 	}
 
-	private ConnectionResponse getOauthValidationResponse(String URI, String basicAuthStr, APIRequestHelper apiRequestHelper) {
+	private ConnectionResponse getOauthValidationResponse(String URI, String basicAuthStr, APIHeaderRequestHelper apiRequestHelper) {
 		ConnectionResponse conResp = new ConnectionResponse();
 		URL url;
 		try {

@@ -1,15 +1,19 @@
-package commandLineHelpers;
+/**
+ * © TheCompany QA 2019. All rights reserved.
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION OF TheCompany.
+ */
+package com.thecompany.qa.lib.commandLineHelpers;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.Runtime.*;
-
+import org.apache.log4j.Logger;
 import static java.lang.Runtime.getRuntime;
 
 public class RunCommand {
 
+    final static Logger logger = Logger.getRootLogger();
     public String RunUnixCommand(String command) {
         String s = null;
         try
@@ -37,12 +41,13 @@ public class RunCommand {
                 System.out.println(s);
             }
             System.exit(0);
+            return "";
             } catch (IOException e) {
                 System.out.println("exception happened - here's what I know: ");
                 e.printStackTrace();
                 System.exit(-1);
             }
-        return "xxx";
+        return "";
     }
 
     public String RunBatCommand(String command) {
@@ -56,7 +61,6 @@ public class RunCommand {
         //            "cmd /c hello.bat", null, new File("C:\\Users\\mkyong\\"));
 
         try {
-
             Process process = processBuilder.start();
 
             StringBuilder output = new StringBuilder();
@@ -72,11 +76,11 @@ public class RunCommand {
             int exitVal = process.waitFor();
             if (exitVal == 0) {
                 System.out.println(output);
-                System.exit(0);
+                //System.exit(0);
+                return "";
             } else {
                 //abnormal...
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -4,7 +4,7 @@
  */
 package com.thecompany.qa.lib.common;
 
-import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
+import com.thecompany.qa.lib.apiHelpers.APIHeaderRequestHelper;
 import com.thecompany.qa.lib.common.model.CollectionListResponseStyleB;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -108,7 +108,7 @@ public class BaseHelper {
 	}
 
 
-	public static void deleteListOfCollectionItems(String microservice, String environment, APIRequestHelper apiRequestHeaders, Object apiHelperObj, ArrayList<String> idListForDeletion) {
+	public static void deleteListOfCollectionItems(String microservice, String environment, APIHeaderRequestHelper apiRequestHeaders, Object apiHelperObj, ArrayList<String> idListForDeletion) {
 		for (String elementId : idListForDeletion) {
 			String[] elementIdArray = elementId.split(":");
 

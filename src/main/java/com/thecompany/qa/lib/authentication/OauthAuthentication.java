@@ -4,7 +4,7 @@
  */
 package com.thecompany.qa.lib.authentication;
 
-import com.thecompany.qa.lib.apiHelpers.APIRequestHelper;
+import com.thecompany.qa.lib.apiHelpers.APIHeaderRequestHelper;
 import com.thecompany.qa.lib.common.BaseHelper;
 import com.thecompany.qa.lib.connection.ConnectionResponse;
 import com.thecompany.qa.lib.connection.OauthValidationResponse;
@@ -27,7 +27,7 @@ public class OauthAuthentication {
     private OauthValidationResponse oauthValidationResponse = null;
     final static Logger logger = Logger.getRootLogger();
 
-    public void initOauthAccessToken(String URI, APIRequestHelper apiRequestHelper) {
+    public void initOauthAccessToken(String URI, APIHeaderRequestHelper apiHeaderRequestHelper) {
 		/*
 		 * Fetching new access token under the following scenarios: 1. if this is the first time we are going to fetch the access token. 2. if a new
 		 * object for APIHeaders has been instantiated, or its user/password has been changed(upon which the flag fetchNewAccessToken will be set to
@@ -37,15 +37,15 @@ public class OauthAuthentication {
 		 * tests take longer to run then there can be a problem.
 		 */
         try {
-            if (oauthValidationResponse == null || apiRequestHelper.getFetchNewAccessToken()) {
+            if (oauthValidationResponse == null || apiHeaderRequestHelper.getFetchNewAccessToken()) {
                 Config applicationUserConfig = ConfigFactory.load("application_user_creds.conf");
                 String basicAuthStr = "Basic " + Base64.getEncoder().encodeToString((applicationUserConfig.getString("application_user.username")
                         + ":" + applicationUserConfig.getString("application_user.password")).getBytes());
 
-                ConnectionResponse conResp = getOauthValidationResponse(URI, basicAuthStr, apiRequestHelper);
+                ConnectionResponse conResp = getOauthValidationResponse(URI, basicAuthStr, apiHeaderRequestHelper);
 
                 oauthValidationResponse = BaseHelper.toClassObject(conResp.getRespBody(), OauthValidationResponse.class);
-                apiRequestHelper.setFetchNewAccessToken(false);
+                apiHeaderRequestHelper.setFetchNewAccessToken(false);
             }
         } catch (JsonGenerationException e) {
             // TODO Auto-generated catch block
@@ -59,7 +59,7 @@ public class OauthAuthentication {
         }
     }
 
-    private ConnectionResponse getOauthValidationResponse(String URI, String basicAuthStr, APIRequestHelper apiRequestHelper) {
+    private ConnectionResponse getOauthValidationResponse(String URI, String basicAuthStr, APIHeaderRequestHelper apiHeaderRequestHelper) {
         ConnectionResponse conResp = new ConnectionResponse();
         URL url;
         try {
@@ -68,10 +68,10 @@ public class OauthAuthentication {
             con.setRequestMethod("POST");
 
             StringBuilder postParams = new StringBuilder();
-            postParams.append("username=" + apiRequestHelper.getUserName());
-            postParams.append("&password=" + apiRequestHelper.getPassword());
-            postParams.append("&grant_type=" + apiRequestHelper.getGrant_type());
-            postParams.append("&scope=" + apiRequestHelper.getScope());
+            postParams.append("username=" + apiHeaderRequestHelper.getUserName());
+            postParams.append("&password=" + apiHeaderRequestHelper.getPassword());
+            postParams.append("&grant_type=" + apiHeaderRequestHelper.getGrant_type());
+            postParams.append("&scope=" + apiHeaderRequestHelper.getScope());
             postParams.append("&response_type=token");
 
             byte[] postData = postParams.toString().getBytes(StandardCharsets.UTF_8);
