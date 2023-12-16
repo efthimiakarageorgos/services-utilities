@@ -154,7 +154,7 @@
   <repositories>
     <repository>
       <id>Maven Central</id>
-      <url>http://repo.maven.apache.org/maven2/</url>
+      <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
   </repositories>
 </project>
